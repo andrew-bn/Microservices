@@ -1,10 +1,11 @@
-﻿{
+{
   "webroot": "wwwroot",
   "version": "1.0.0-*",
 
   "dependencies": {
     "Microsoft.AspNet.Server.IIS": "1.0.0-beta5",
-    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5"
+    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
+    "Microservices.Core": "1.0.0-*"
   },
 
   "commands": {
@@ -12,8 +13,8 @@
   },
 
   "frameworks": {
-    "dnx451": { },
-    "dnxcore50": { }
+    "dnxcore50": { },
+    "dnx451": { }
   },
 
   "publishExclude": [
