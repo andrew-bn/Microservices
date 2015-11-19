@@ -23,6 +23,7 @@ namespace Microservices.Host
 
         public async Task Invoke(HttpContext context)
         {
+			await context.Response.WriteAsync("hello!");
         }
     }
 

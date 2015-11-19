@@ -1,0 +1,28 @@
+{
+  "webroot": "wwwroot",
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-*",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-*",
+    "Microservices.Core": "1.0.0-*"
+  },
+
+  "commands": {
+    "web": "Microsoft.AspNet.Server.Kestrel"
+  },
+
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": { }
+  },
+
+  "publishExclude": [
+    "wwwroot",
+    "node_modules"
+  ],
+  "exclude": [
+    "**.user",
+    "**.vspscc"
+  ]
+}

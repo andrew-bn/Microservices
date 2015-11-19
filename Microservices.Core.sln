@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24627.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.Core", "Microservices.Core\Microservices.Core.xproj", "{2C4D97D8-7395-4216-B701-C700C9D3B959}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.Core", "src\Microservices.Core\Microservices.Core.xproj", "{2C4D97D8-7395-4216-B701-C700C9D3B959}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.Host", "Microservices.Host\Microservices.Host.xproj", "{CB8515A9-E3C2-4EEE-9E41-F23B2C2C125D}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.Host", "src\Microservices.Host\Microservices.Host.xproj", "{CB8515A9-E3C2-4EEE-9E41-F23B2C2C125D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{296F60EE-077C-4318-A79B-E6B4A5F39B81}"
 	ProjectSection(SolutionItems) = preProject
