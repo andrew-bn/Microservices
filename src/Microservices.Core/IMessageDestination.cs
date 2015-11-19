@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace Microservices.Core
 {
     public interface IMessageDestination
     {
-        void Receive(Message message);
+        Task Process(MessageContext messageContext);
     }
 }

@@ -1,3 +1,4 @@
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
@@ -8,6 +9,26 @@ namespace Microservices.Host
 {
     public class AspNet5MicroserviceMessageSource : MessageSource
     {
+        private class AspNet5MiddlewareMessageContext : MessageContext, IMessageResponse
+        {
+            private readonly HttpContext _httpContext;
+            public override sealed IMessageResponse Response { get; protected set; }
+            public override sealed MessageSource Source { get; protected set; }
+
+            public AspNet5MiddlewareMessageContext(MessageSource source, HttpContext httpContext)
+            {
+                _httpContext = httpContext;
+                Response = this;
+                Source = source;
+            }
+
+
+            public Task WriteString(string str)
+            {
+                return _httpContext.Response.WriteAsync(str);
+            }
+        }
+
         private readonly RequestDelegate _next;
 
         public AspNet5MicroserviceMessageSource(IMessageDestination dst, RequestDelegate next)
@@ -18,10 +39,28 @@ namespace Microservices.Host
 
         public async Task Invoke(HttpContext context)
         {
-			//context.Request.ReadFormAsync().ContinueWithStandard(null);
-			await context.Response.WriteAsync("hello!");
+            var body = await ReadBody(context);
+            var message = new AspNet5MiddlewareMessageContext(this, context);
+
+            await Process(message);
+        }
+
+        public async Task<string> ReadBody(HttpContext context)
+        {
+            if (!context.Request.ContentLength.HasValue)
+                return string.Empty;
+
+            var data = new byte[context.Request.ContentLength.Value];
+            var done = 0;
+
+            while (done < data.Length)
+                done += await context.Request.Body.ReadAsync(data, done, data.Length - done);
+
+            return Encoding.UTF8.GetString(data);
         }
     }
+
+
 
     public static class AspNet5MicroservicesMessageSourceMiddleware
     {
