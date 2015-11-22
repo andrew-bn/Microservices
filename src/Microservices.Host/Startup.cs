@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using Microservices.Core;
 using Microsoft.AspNet.Builder;
@@ -18,11 +19,7 @@ namespace Microservices.Host
 			var builder = new ConfigurationBuilder()
 				.AddJsonFile("config.json")
 				.AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
-
-			builder.AddEnvironmentVariables();
 			Configuration = builder.Build();
-
-			
 		}
 
 		public void ConfigureServices(IServiceCollection services)

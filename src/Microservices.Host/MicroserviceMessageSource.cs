@@ -89,7 +89,7 @@ namespace Microservices.Host
 			{
 				routes.MapRoute(
 				"default",
-				"{microservice}/{index}/{id}",
+				"{microservice}/{method}/{id}",
 				new { microservice = "host", method = "index", id = "" });
 			});
 		}
@@ -106,7 +106,7 @@ namespace Microservices.Host
 			};
 
 			configureRoutes(routes);
-
+			
 			return app.UseRouter(routes.Build());
 		}
 
