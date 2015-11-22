@@ -4,6 +4,7 @@ namespace Microservices.Core
 {
     public interface IMessageDestination
     {
-        Task Process(MessageContext messageContext);
+	    void Initialize();
+        Task Process(IMessageContext messageContext);
     }
 }

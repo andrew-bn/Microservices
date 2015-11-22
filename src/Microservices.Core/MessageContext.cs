@@ -1,10 +1,9 @@
 namespace Microservices.Core
 {
-    public abstract class MessageContext
+    public interface IMessageContext
     {
-        public abstract MessageSource Source { get; protected set; }
-        public abstract IMessageResponse Response { get; protected set; }
-
-
+        IMessageRequest Request { get; }
+        MessageSource Source { get; }
+        IMessageResponse Response { get; }
     }
 }

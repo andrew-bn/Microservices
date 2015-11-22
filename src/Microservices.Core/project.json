@@ -5,7 +5,6 @@
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
-
   "frameworks": {
     "dnx451": { },
     "dnxcore50": {
@@ -17,5 +16,9 @@
         "System.Threading": "4.0.11-beta-23409"
       }
     }
+  },
+  "dependencies": {
+    "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc1-final"
   }
 }

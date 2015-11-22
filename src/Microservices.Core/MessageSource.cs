@@ -11,7 +11,7 @@ namespace Microservices.Core
             _destination = destination;
         }
 
-        protected async Task Process(MessageContext messageContext)
+        protected async Task Process(IMessageContext messageContext)
         {
             await _destination.Process(messageContext);
         }

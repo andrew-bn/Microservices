@@ -1,5 +1,5 @@
 {
-  "projects": ["src","test"],
+  "projects": [ "src", "test", "." ],
   "sdk": {
     "architecture": "x64",
     "runtime": "coreclr",
