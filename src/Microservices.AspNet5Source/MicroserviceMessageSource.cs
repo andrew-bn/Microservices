@@ -7,9 +7,8 @@ using Microservices.Core;
 using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.OptionsModel;
 
-namespace Microservices.Host
+namespace Microservices.AspNet5Source
 {
 	public class HttpMicroserviceMessageSource : MessageSource, IRouter
 	{
@@ -114,7 +113,8 @@ namespace Microservices.Host
 		{
 			services.Configure<MicroservicesOptions>(configuration.GetSection("Microservices"));
 			services.AddSingleton<IMessageDestination, MicroservicesHost>();
+			services.AddSingleton<IMicroservicesLocator, DefaultMicroservicesLocator>();
+			
 		}
-
 	}
 }

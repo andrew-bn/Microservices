@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.OptionsModel;
-using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Microservices.Core
 {
 	public class MicroservicesHost : IMessageDestination
 	{
 		private readonly MicroservicesOptions _options;
+		private IMicroservicesLocator _microservicesLocator;
+		private Type[] _microservices;
 
-		public MicroservicesHost(IOptions<MicroservicesOptions> options)
+		public MicroservicesHost(IServiceCollection serviceCollection, IOptions<MicroservicesOptions> options, IMicroservicesLocator microservicesLocator)
 		{
 			_options = options.Value;
+			_microservicesLocator = microservicesLocator;
 		}
 
 		public async Task Process(IMessageContext messageContext)
@@ -23,13 +25,19 @@ namespace Microservices.Core
             if (messageContext == null)
                 throw new ArgumentNullException(nameof(messageContext));
 
-		    await messageContext.Response.WriteString("hello!");
+			var syncContext = SynchronizationContext.Current;
+
+			await messageContext.Response.WriteString($"{messageContext.Request.MicroserviceName}.{messageContext.Request.MicroserviceMethod}");
 		}
 
         public void Initialize()
         {
-			
-            
+			_microservices = _microservicesLocator.FindMicroservices().Select(InitializeMicroservice).ToArray();
         }
-    }
+
+		private Type InitializeMicroservice(Type m)
+		{
+			return m;
+		}
+	}
 }

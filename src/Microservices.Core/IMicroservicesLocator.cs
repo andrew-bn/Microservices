@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
-    public class MicroservicesOptions
+    public interface IMicroservicesLocator
     {
-		public string[] Sources { get; set; }
-	}
+		List<Type> FindMicroservices();
+    }
 }
