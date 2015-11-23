@@ -12,5 +12,10 @@ namespace Microservices.HostService.Microservices
         public HostMicroservice()
         {
         }
+
+	    public void Index()
+	    {
+		    
+	    }
     }
 }

@@ -112,7 +112,7 @@ namespace Microservices.AspNet5Source
 		public static void AddMicroservices(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.Configure<MicroservicesOptions>(configuration.GetSection("Microservices"));
-			services.AddSingleton<IMessageDestination, MicroservicesHost>();
+			services.AddSingleton<IMessageDestination, MicroservicesDispatcher>();
 			services.AddSingleton<IMicroservicesLocator, DefaultMicroservicesLocator>();
 			
 		}
