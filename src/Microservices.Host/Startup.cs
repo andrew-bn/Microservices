@@ -17,7 +17,6 @@ namespace Microservices.Host
 				.AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
 			
 			Configuration = builder.Build();
-
 		}
 
 		public void ConfigureServices(IServiceCollection services)

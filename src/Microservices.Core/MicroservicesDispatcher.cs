@@ -21,7 +21,8 @@ namespace Microservices.Core
 			_options = options.Value;
 			_serviceProvider = serviceProvider;
 			_microservicesLocator = microservicesLocator;
-			_synchronizationContext = new MicroservicesSynchronizationContext();
+		
+		//	_synchronizationContext = new MicroservicesSynchronizationContext();
 		}
 
 		public async Task Process(IMessageContext messageContext)
