@@ -21,6 +21,7 @@ namespace Microservices.Host
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			
             services.AddOptions();
 			services.AddRouting();
 

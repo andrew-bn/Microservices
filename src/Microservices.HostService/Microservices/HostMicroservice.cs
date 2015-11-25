@@ -12,8 +12,8 @@ namespace Microservices.HostService.Microservices
         public HostMicroservice()
         {
         }
-
-	    public void Index()
+		
+	    public async Task Index()
 	    {
 			var factory = Task.Factory;
 		}

@@ -1,14 +1,17 @@
 {
   "webroot": "wwwroot",
   "version": "1.0.0-*",
-
+  
   "dependencies": {
+    
     "Microsoft.AspNet.IISPlatformHandler": "1.0.0-*",
     "Microsoft.AspNet.Server.Kestrel": "1.0.0-*",
     "Microservices.Core": "1.0.0-*",
     "Microsoft.AspNet.Routing": "1.0.0-*",
     "Microservices.HostService": "1.0.0-*",
-    "Microservices.AspNet5Source": "1.0.0-*"
+    "Microservices.AspNet5Source": "1.0.0-*",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc1-final"
+
   },
 
   "commands": {
@@ -16,11 +19,8 @@
   },
 
   "frameworks": {
-    "dnx451": {
-      "dependencies": {
-        "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc1-final"
-      }
-    },
+    "net451": { },
+    "dnx451": { },
     "dnxcore50": { }
   },
 

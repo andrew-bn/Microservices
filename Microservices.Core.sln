@@ -16,6 +16,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.AspNet5Source
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.HostService", "src\Microservices.HostService\Microservices.HostService.xproj", "{0C340066-9992-4954-BD56-4359CA94A4D1}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.xproj", "{CC7DF132-B6CE-4002-8FC2-986B3174AB0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{0C340066-9992-4954-BD56-4359CA94A4D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C340066-9992-4954-BD56-4359CA94A4D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C340066-9992-4954-BD56-4359CA94A4D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC7DF132-B6CE-4002-8FC2-986B3174AB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC7DF132-B6CE-4002-8FC2-986B3174AB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC7DF132-B6CE-4002-8FC2-986B3174AB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC7DF132-B6CE-4002-8FC2-986B3174AB0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

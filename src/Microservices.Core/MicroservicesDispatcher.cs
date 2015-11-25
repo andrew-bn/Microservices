@@ -30,8 +30,8 @@ namespace Microservices.Core
 			if (messageContext == null)
 				throw new ArgumentNullException(nameof(messageContext));
 
-			_microservices[0].SynchronizationContext.Post(s=>  _microservices[0].Call(messageContext.Request.MicroserviceMethod),null);
-
+			await _microservices[0].Call(messageContext.Request.MicroserviceMethod);
+			
 			await messageContext.Response.WriteString($"{messageContext.Request.MicroserviceName}.{messageContext.Request.MicroserviceMethod}");
 		}
 

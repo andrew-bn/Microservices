@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
@@ -22,11 +23,12 @@ namespace Microservices.Core
 					.IndexOf(".Microservices", StringComparison.Ordinal)).Trim('.') + "." + type.Name;
 		}
 
-		public void Call(string method)
+		public Task Call(string method)
 		{
-			Type.GetMethod(method, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public)
+			return (Task)Type.GetMethod(method, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public)
 				.Invoke(Instance, null);
 		}
+
 		private object InstantiateMicroservice(Type type)
 		{
 			var ctor = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance)[0];
