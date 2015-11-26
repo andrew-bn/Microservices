@@ -109,8 +109,12 @@ namespace Microservices.AspNet5Source
 			return app.UseRouter(routes.Build());
 		}
 
-		public static void AddMicroservices(this IServiceCollection services, IConfiguration configuration)
+		public static void AddMicroservices(this IServiceCollection services)
 		{
+			var builder = new ConfigurationBuilder().AddJsonFile("hosting.json");
+
+			var configuration = builder.Build();
+
 			services.Configure<MicroservicesOptions>(configuration.GetSection("Microservices"));
 			services.AddSingleton<IMessageDestination, MicroservicesDispatcher>();
 			services.AddSingleton<IMicroservicesLocator, DefaultMicroservicesLocator>();
