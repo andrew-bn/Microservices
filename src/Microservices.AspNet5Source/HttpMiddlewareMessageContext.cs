@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microservices.Core;
@@ -28,7 +29,7 @@ namespace Microservices.AspNet5Source
 		{
 			var body = await ReadBody(_routeContext.HttpContext);
 			var jr = new JsonTextReader(new StringReader(body));
-			var _jsonRequest = (JObject)JsonSerializer.Create().Deserialize(jr);
+			_jsonRequest = (JObject)JsonSerializer.Create().Deserialize(jr);
 		}
 
 		public IMessageRequest Request { get; }
@@ -54,9 +55,17 @@ namespace Microservices.AspNet5Source
 			return _routeContext.HttpContext.Response.WriteAsync(str);
 		}
 
-		public T ReadParameter<T>(RequestParameter parameter)
+		public async Task WriteResult(object result)
 		{
-			return _jsonRequest.Value<T>(parameter.Name);
+			var sw = new StringWriter();
+			JsonSerializer.Create().Serialize(sw,result);
+			await WriteString(sw.ToString());
+		}
+		public object ReadParameter(Type type, RequestParameter parameter)
+		{
+			return typeof (JObject).GetMethod("Value",BindingFlags.Instance | BindingFlags.IgnoreCase |BindingFlags.Public)
+				.MakeGenericMethod(type)
+				.Invoke(_jsonRequest, new object[] {parameter.Name});
 		}
 
 		private async Task<string> ReadBody(HttpContext context)

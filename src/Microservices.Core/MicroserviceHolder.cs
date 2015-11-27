@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -19,14 +20,41 @@ namespace Microservices.Core
 			Type = type;
 			SynchronizationContext = synchronizationContext;
 			Instance = InstantiateMicroservice(type);
-			Name = (type.Namespace??"").Substring((type.Namespace??"")
+			Name = (type.Namespace ?? "").Substring((type.Namespace ?? "")
 					.IndexOf(".Microservices", StringComparison.Ordinal)).Trim('.') + "." + type.Name;
 		}
 
-		public Task Call(string method, IMessageContext messageContext)
+		public async Task Call(string method, IMessageContext messageContext)
 		{
-			return (Task)Type.GetMethod(method, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public)
-				.Invoke(Instance, new object[] { messageContext });
+			var methodInfo = Type.GetMethod(method, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+
+			var parameters = new List<object>();
+			var skipped = 0;
+			foreach (var p in methodInfo.GetParameters())
+			{
+				object value = null;
+				if (p.IsRetval) continue;
+
+				if (p.HasDefaultValue)
+					value = p.DefaultValue;
+
+				if (p.ParameterType == typeof (IMessageContext))
+				{
+					value = messageContext;
+					skipped++;
+				}
+				else
+					value = messageContext.Request.ReadParameter(p.ParameterType,
+						new RequestParameter(p.Position - skipped, p.Name)) ?? value;
+
+
+				parameters.Add(value);
+			}
+
+			var task = (Task)methodInfo.Invoke(Instance, parameters.ToArray());
+			await task;
+			var result = task.GetType().GetProperty("Result").GetValue(task);
+			await messageContext.Response.WriteResult(result);
 		}
 
 		private object InstantiateMicroservice(Type type)

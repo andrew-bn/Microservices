@@ -1,3 +1,5 @@
+using System;
+
 namespace Microservices.Core
 {
     public interface IMessageRequest
@@ -5,6 +7,6 @@ namespace Microservices.Core
         string MicroserviceName { get; }
         string MicroserviceMethod { get; }
 
-		T ReadParameter<T>(RequestParameter parameter);
+		object ReadParameter(Type type, RequestParameter parameter);
 	}
 }

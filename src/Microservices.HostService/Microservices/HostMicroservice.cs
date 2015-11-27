@@ -6,18 +6,16 @@ using Microservices.Core;
 
 namespace Microservices.HostService.Microservices
 {
-    // This project can output the Class library as a NuGet Package.
-    // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
     public class HostMicroservice
     {
-        public HostMicroservice()
-        {
-        }
-		
-	    public async Task Index(IMessageContext context)
+	    public class SomeClass
 	    {
-			context.Request.ReadParameter<dynamic>(new RequestParameter(0, "param2"));
-			await context.Response.WriteString("Hello from HostMicroservice!");
-		}
+		    public string Param1 { get; set; }
+			public int Param2 { get; set; }
+	    }
+	    public async Task<SomeClass> Index(int param1)
+	    {
+		    return new SomeClass() {Param1 = param1 + "_asdf", Param2 = param1+23};
+	    }
     }
 }

@@ -4,6 +4,6 @@ namespace Microservices.Core
 {
     public interface IMessageResponse
     {
-        Task WriteString(string str);
+	    Task WriteResult(object result);
     }
 }
