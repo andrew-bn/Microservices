@@ -26,6 +26,7 @@
   "dependencies": {
     "Microservices.Core": "1.0.0-*",
     "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859"
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+    "Newtonsoft.Json": "8.0.1-beta3"
   }
 }

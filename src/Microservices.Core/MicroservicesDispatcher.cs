@@ -21,8 +21,6 @@ namespace Microservices.Core
 			_options = options.Value;
 			_serviceProvider = serviceProvider;
 			_microservicesLocator = microservicesLocator;
-		
-		//	_synchronizationContext = new MicroservicesSynchronizationContext();
 		}
 
 		public async Task Process(IMessageContext messageContext)
@@ -30,9 +28,7 @@ namespace Microservices.Core
 			if (messageContext == null)
 				throw new ArgumentNullException(nameof(messageContext));
 
-			await _microservices[0].Call(messageContext.Request.MicroserviceMethod);
-			
-			await messageContext.Response.WriteString($"{messageContext.Request.MicroserviceName}.{messageContext.Request.MicroserviceMethod}");
+			await _microservices[0].Call(messageContext.Request.MicroserviceMethod, messageContext);
 		}
 
 		public void Initialize()

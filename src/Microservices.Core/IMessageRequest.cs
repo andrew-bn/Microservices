@@ -4,5 +4,7 @@ namespace Microservices.Core
     {
         string MicroserviceName { get; }
         string MicroserviceMethod { get; }
-    }
+
+		T ReadParameter<T>(RequestParameter parameter);
+	}
 }

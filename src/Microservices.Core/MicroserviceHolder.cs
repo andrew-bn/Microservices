@@ -23,10 +23,10 @@ namespace Microservices.Core
 					.IndexOf(".Microservices", StringComparison.Ordinal)).Trim('.') + "." + type.Name;
 		}
 
-		public Task Call(string method)
+		public Task Call(string method, IMessageContext messageContext)
 		{
 			return (Task)Type.GetMethod(method, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public)
-				.Invoke(Instance, null);
+				.Invoke(Instance, new object[] { messageContext });
 		}
 
 		private object InstantiateMicroservice(Type type)

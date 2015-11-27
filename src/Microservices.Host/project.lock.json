@@ -9,7 +9,8 @@
         "dependencies": {
           "Microservices.Core": "1.0.0",
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
-          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859"
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3"
         }
       },
       "Microservices.AspNetHosting/1.0.0": {
@@ -39,6 +40,7 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.1",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final"
         }
       },
@@ -596,7 +598,7 @@
           "lib/net451/Microsoft.Net.Http.Headers.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -663,7 +665,8 @@
         "dependencies": {
           "Microservices.Core": "1.0.0",
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
-          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859"
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3"
         }
       },
       "Microservices.AspNetHosting/1.0.0": {
@@ -693,6 +696,7 @@
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final"
         }
       },
@@ -1251,7 +1255,7 @@
           "lib/net451/Microsoft.Net.Http.Headers.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -1320,6 +1324,7 @@
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
           "Microsoft.CSharp": "4.0.1-beta-23409",
           "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3",
           "System.Collections": "4.0.11-beta-23409",
           "System.Linq": "4.0.1-beta-23409",
           "System.Runtime": "4.0.21-beta-23409",
@@ -1363,6 +1368,7 @@
         "type": "project",
         "framework": "DNXCore,Version=v5.0",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.CSharp": "4.0.1-beta-23409",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final",
           "System.Collections": "4.0.11-beta-23409",
@@ -1934,13 +1940,13 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -2655,7 +2661,8 @@
         "dependencies": {
           "Microservices.Core": "1.0.0",
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
-          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859"
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3"
         }
       },
       "Microservices.AspNetHosting/1.0.0": {
@@ -2685,6 +2692,7 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.1",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final"
         }
       },
@@ -3245,7 +3253,7 @@
           "lib/net451/Microsoft.Net.Http.Headers.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -3312,7 +3320,8 @@
         "dependencies": {
           "Microservices.Core": "1.0.0",
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
-          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859"
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3"
         }
       },
       "Microservices.AspNetHosting/1.0.0": {
@@ -3342,6 +3351,7 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.1",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final"
         }
       },
@@ -3902,7 +3912,7 @@
           "lib/net451/Microsoft.Net.Http.Headers.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -3969,7 +3979,8 @@
         "dependencies": {
           "Microservices.Core": "1.0.0",
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
-          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859"
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3"
         }
       },
       "Microservices.AspNetHosting/1.0.0": {
@@ -3999,6 +4010,7 @@
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final"
         }
       },
@@ -4560,7 +4572,7 @@
           "lib/net451/Microsoft.Net.Http.Headers.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -4627,7 +4639,8 @@
         "dependencies": {
           "Microservices.Core": "1.0.0",
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
-          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859"
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3"
         }
       },
       "Microservices.AspNetHosting/1.0.0": {
@@ -4657,6 +4670,7 @@
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final"
         }
       },
@@ -5218,7 +5232,7 @@
           "lib/net451/Microsoft.Net.Http.Headers.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -5287,6 +5301,7 @@
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
           "Microsoft.CSharp": "4.0.1-beta-23409",
           "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3",
           "System.Collections": "4.0.11-beta-23409",
           "System.Linq": "4.0.1-beta-23409",
           "System.Runtime": "4.0.21-beta-23409",
@@ -5330,6 +5345,7 @@
         "type": "project",
         "framework": "DNXCore,Version=v5.0",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.CSharp": "4.0.1-beta-23409",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final",
           "System.Collections": "4.0.11-beta-23409",
@@ -5904,13 +5920,13 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.any.System.Linq.Expressions/4.0.11-beta-23516": {
@@ -6060,7 +6076,7 @@
           "lib/DNXCore50/System.Net.Primitives.dll": {}
         }
       },
-      "runtime.win7.System.Private.Uri/4.0.1-beta-23409": {
+      "runtime.win7.System.Private.Uri/4.0.1-beta-23516": {
         "type": "package",
         "compile": {
           "ref/dotnet/_._": {}
@@ -6147,7 +6163,7 @@
           "runtimes/win7/lib/dotnet5.4/System.Security.Cryptography.X509Certificates.dll": {}
         }
       },
-      "runtime.win7.System.Threading/4.0.11-beta-23409": {
+      "runtime.win7.System.Threading/4.0.11-beta-23516": {
         "type": "package",
         "compile": {
           "ref/dotnet/_._": {}
@@ -7046,6 +7062,7 @@
           "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
           "Microsoft.CSharp": "4.0.1-beta-23409",
           "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-15859",
+          "Newtonsoft.Json": "8.0.1-beta3",
           "System.Collections": "4.0.11-beta-23409",
           "System.Linq": "4.0.1-beta-23409",
           "System.Runtime": "4.0.21-beta-23409",
@@ -7089,6 +7106,7 @@
         "type": "project",
         "framework": "DNXCore,Version=v5.0",
         "dependencies": {
+          "Microservices.Core": "1.0.0",
           "Microsoft.CSharp": "4.0.1-beta-23409",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final",
           "System.Collections": "4.0.11-beta-23409",
@@ -7663,13 +7681,13 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/8.0.1-beta3": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.any.System.Linq.Expressions/4.0.11-beta-23516": {
@@ -7819,7 +7837,7 @@
           "lib/DNXCore50/System.Net.Primitives.dll": {}
         }
       },
-      "runtime.win7.System.Private.Uri/4.0.1-beta-23409": {
+      "runtime.win7.System.Private.Uri/4.0.1-beta-23516": {
         "type": "package",
         "compile": {
           "ref/dotnet/_._": {}
@@ -7906,7 +7924,7 @@
           "runtimes/win7/lib/dotnet5.4/System.Security.Cryptography.X509Certificates.dll": {}
         }
       },
-      "runtime.win7.System.Threading/4.0.11-beta-23409": {
+      "runtime.win7.System.Threading/4.0.11-beta-23516": {
         "type": "package",
         "compile": {
           "ref/dotnet/_._": {}
@@ -9345,9 +9363,9 @@
         "ref/xamarinmac20/_._"
       ]
     },
-    "Newtonsoft.Json/6.0.6": {
+    "Newtonsoft.Json/8.0.1-beta3": {
       "type": "package",
-      "sha512": "w26uZNyCG5VeoKiEOJ4+9/o8koSofLKwHl7WLreIcp0U6r57L7WiRXmjp8MTKFw6dYNZ9AE0lw69WYbIhUsU9Q==",
+      "sha512": "fTozGxIUbseQrW3qXJcM5mDj/uenSJYu3WfwTsgc0alG8FqXwG5TY9aQLag+9Gt2bFtt/Y2e0Yy8J4p1fGtc9Q==",
       "files": [
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
@@ -9357,14 +9375,12 @@
         "lib/net40/Newtonsoft.Json.xml",
         "lib/net45/Newtonsoft.Json.dll",
         "lib/net45/Newtonsoft.Json.xml",
-        "lib/netcore45/Newtonsoft.Json.dll",
-        "lib/netcore45/Newtonsoft.Json.xml",
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
-        "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll",
-        "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.xml",
-        "Newtonsoft.Json.6.0.6.nupkg",
-        "Newtonsoft.Json.6.0.6.nupkg.sha512",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
+        "Newtonsoft.Json.8.0.1-beta3.nupkg",
+        "Newtonsoft.Json.8.0.1-beta3.nupkg.sha512",
         "Newtonsoft.Json.nuspec",
         "tools/install.ps1"
       ]
@@ -9495,14 +9511,14 @@
         "runtimes/win7/lib/netcore50/System.Net.Primitives.dll"
       ]
     },
-    "runtime.win7.System.Private.Uri/4.0.1-beta-23409": {
+    "runtime.win7.System.Private.Uri/4.0.1-beta-23516": {
       "type": "package",
       "serviceable": true,
-      "sha512": "9mcAednoAbDrL5t/GBPYFCfrxYaGxfvpkSkAt3LWQeCH0rp4PlJpOQNtIALcyCfG4lD+z0YBAXEQsZmMVs6C+Q==",
+      "sha512": "dENjtxxx1L+OXWnxGRzeAD8mJC//NljPPLXNWg1H5BG6IB4YTLzBSzfeCOZQVpQaKfCYE7Mzjq12uCVZpBG4vg==",
       "files": [
         "ref/dotnet/_._",
-        "runtime.win7.System.Private.Uri.4.0.1-beta-23409.nupkg",
-        "runtime.win7.System.Private.Uri.4.0.1-beta-23409.nupkg.sha512",
+        "runtime.win7.System.Private.Uri.4.0.1-beta-23516.nupkg",
+        "runtime.win7.System.Private.Uri.4.0.1-beta-23516.nupkg.sha512",
         "runtime.win7.System.Private.Uri.nuspec",
         "runtimes/win7/lib/DNXCore50/System.Private.Uri.dll",
         "runtimes/win7/lib/netcore50/System.Private.Uri.dll",
@@ -9563,37 +9579,17 @@
         "runtimes/win7/lib/netcore50/System.Security.Cryptography.X509Certificates.dll"
       ]
     },
-    "runtime.win7.System.Threading/4.0.11-beta-23409": {
+    "runtime.win7.System.Threading/4.0.11-beta-23516": {
       "type": "package",
       "serviceable": true,
-      "sha512": "KUUz+kNOK8ZEaCDERH/lS8RCVN9ww79xSAjWhs1/7pyN43727Xoh4GGODA0BUV3dAmBMvxMQVgDPwi/Ylvj/YQ==",
+      "sha512": "kKQ9uUB1g3S9eyK5njdwh5LO0HxJ9CN6cF9dXtp7uzdZvh2UoTgAZ0Jf+/TvzWcUsfcKIPQUGPPLOBLaQpXASg==",
       "files": [
         "ref/dotnet/_._",
-        "runtime.win7.System.Threading.4.0.11-beta-23409.nupkg",
-        "runtime.win7.System.Threading.4.0.11-beta-23409.nupkg.sha512",
+        "runtime.win7.System.Threading.4.0.11-beta-23516.nupkg",
+        "runtime.win7.System.Threading.4.0.11-beta-23516.nupkg.sha512",
         "runtime.win7.System.Threading.nuspec",
-        "runtimes/win7/lib/DNXCore50/de/System.Threading.xml",
-        "runtimes/win7/lib/DNXCore50/es/System.Threading.xml",
-        "runtimes/win7/lib/DNXCore50/fr/System.Threading.xml",
-        "runtimes/win7/lib/DNXCore50/it/System.Threading.xml",
-        "runtimes/win7/lib/DNXCore50/ja/System.Threading.xml",
-        "runtimes/win7/lib/DNXCore50/ko/System.Threading.xml",
-        "runtimes/win7/lib/DNXCore50/ru/System.Threading.xml",
         "runtimes/win7/lib/DNXCore50/System.Threading.dll",
-        "runtimes/win7/lib/DNXCore50/System.Threading.xml",
-        "runtimes/win7/lib/DNXCore50/zh-hans/System.Threading.xml",
-        "runtimes/win7/lib/DNXCore50/zh-hant/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/de/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/es/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/fr/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/it/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/ja/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/ko/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/ru/System.Threading.xml",
         "runtimes/win7/lib/netcore50/System.Threading.dll",
-        "runtimes/win7/lib/netcore50/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/zh-hans/System.Threading.xml",
-        "runtimes/win7/lib/netcore50/zh-hant/System.Threading.xml",
         "runtimes/win8-aot/lib/netcore50/System.Threading.dll"
       ]
     },
@@ -12249,12 +12245,12 @@
     "": [
       "Microsoft.AspNet.IISPlatformHandler >= 1.0.0-*",
       "Microsoft.AspNet.Server.Kestrel >= 1.0.0-*",
-      "Microservices.Core >= 1.0.0-*",
       "Microsoft.AspNet.Routing >= 1.0.0-*",
-      "Microservices.HostService >= 1.0.0-*",
-      "Microservices.AspNet5Source >= 1.0.0-*",
       "Microsoft.Extensions.PlatformAbstractions >= 1.0.0-rc1-final",
-      "Microservices.AspNetHosting "
+      "Microservices.Core >= 1.0.0-*",
+      "Microservices.AspNet5Source >= 1.0.0-*",
+      "Microservices.AspNetHosting ",
+      "Microservices.HostService >= 1.0.0-*"
     ],
     ".NETFramework,Version=v4.5.1": [],
     "DNX,Version=v4.5.1": [],

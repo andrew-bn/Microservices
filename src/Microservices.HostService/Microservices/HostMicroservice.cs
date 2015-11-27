@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microservices.Core;
 
 namespace Microservices.HostService.Microservices
 {
@@ -13,9 +14,10 @@ namespace Microservices.HostService.Microservices
         {
         }
 		
-	    public async Task Index()
+	    public async Task Index(IMessageContext context)
 	    {
-			var factory = Task.Factory;
+			context.Request.ReadParameter<dynamic>(new RequestParameter(0, "param2"));
+			await context.Response.WriteString("Hello from HostMicroservice!");
 		}
     }
 }
