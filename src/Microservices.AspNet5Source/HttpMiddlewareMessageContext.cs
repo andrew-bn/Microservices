@@ -32,14 +32,16 @@ namespace Microservices.AspNet5Source
 			_jsonRequest = (JObject)JsonSerializer.Create().Deserialize(jr);
 		}
 
+		public IMicroservicesDispatcher Dispatcher { get; }
 		public IMessageRequest Request { get; }
 		public MessageSource Source { get; }
 
 		public string MicroserviceName { get; }
 		public string MicroserviceMethod { get; }
 
-		public HttpMiddlewareMessageContext(MessageSource source, RouteContext routeContext)
+		public HttpMiddlewareMessageContext(IMicroservicesDispatcher dispatcher, MessageSource source, RouteContext routeContext)
 		{
+			Dispatcher = dispatcher;
 			_routeContext = routeContext;
 			Response = this;
 			Request = this;

@@ -8,18 +8,15 @@ using Microsoft.Extensions.OptionsModel;
 
 namespace Microservices.Core
 {
-	public class MicroservicesDispatcher : IMessageDestination
+	public class MicroservicesDispatcher : IMicroservicesDispatcher
 	{
 		private readonly MicroservicesOptions _options;
-		private readonly IServiceProvider _serviceProvider;
 		private readonly IMicroservicesLocator _microservicesLocator;
-		private MicroserviceHolder[] _microservices;
-		private readonly SynchronizationContext _synchronizationContext;
+		private Dictionary<string, IMicroservice> _microservices;
 
-		public MicroservicesDispatcher(IServiceProvider serviceProvider, IOptions<MicroservicesOptions> options, IMicroservicesLocator microservicesLocator)
+		public MicroservicesDispatcher(IOptions<MicroservicesOptions> options, IMicroservicesLocator microservicesLocator)
 		{
 			_options = options.Value;
-			_serviceProvider = serviceProvider;
 			_microservicesLocator = microservicesLocator;
 		}
 
@@ -28,17 +25,17 @@ namespace Microservices.Core
 			if (messageContext == null)
 				throw new ArgumentNullException(nameof(messageContext));
 
-			await _microservices[0].Call(messageContext.Request.MicroserviceMethod, messageContext);
+			IMicroservice srv;
+			if (!_microservices.TryGetValue(messageContext.Request.MicroserviceName.ToLower(), out srv))
+				throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, messageContext);
+			
+			await srv.Invoke(messageContext.Request.MicroserviceMethod, messageContext);
 		}
 
 		public void Initialize()
 		{
-			_microservices = _microservicesLocator.FindMicroservices().Select(InitializeMicroservice).ToArray();
-		}
-
-		private MicroserviceHolder InitializeMicroservice(Type type)
-		{
-			return new MicroserviceHolder(type, _serviceProvider, _synchronizationContext);
+			_microservices = _microservicesLocator.LocateMicroservices()
+				.ToDictionary(s => s.Name.ToLower(), s => s);
 		}
 
 	}

@@ -2,8 +2,10 @@ namespace Microservices.Core
 {
     public interface IMessageContext
     {
-        IMessageRequest Request { get; }
+		IMicroservicesDispatcher Dispatcher { get; }
+
+		IMessageRequest Request { get; }
         MessageSource Source { get; }
         IMessageResponse Response { get; }
-    }
+	}
 }

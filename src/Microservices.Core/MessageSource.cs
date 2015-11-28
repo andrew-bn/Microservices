@@ -4,16 +4,16 @@ namespace Microservices.Core
 {
     public abstract class MessageSource
     {
-        private readonly IMessageDestination _destination;
+        protected IMicroservicesDispatcher Dispatcher { get; }
 
-        protected MessageSource(IMessageDestination destination)
+        protected MessageSource(IMicroservicesDispatcher dispatcher)
         {
-            _destination = destination;
+            Dispatcher = dispatcher;
         }
 
         protected async Task Process(IMessageContext messageContext)
         {
-            await _destination.Process(messageContext);
+            await Dispatcher.Process(messageContext);
         }
     }
 }

@@ -8,14 +8,9 @@ namespace Microservices.HostService.Microservices
 {
     public class HostMicroservice
     {
-	    public class SomeClass
+	    public async Task<int> Index(int param1)
 	    {
-		    public string Param1 { get; set; }
-			public int Param2 { get; set; }
-	    }
-	    public async Task<SomeClass> Index(int param1)
-	    {
-		    return new SomeClass() {Param1 = param1 + "_asdf", Param2 = param1+23};
+		    return param1;
 	    }
     }
 }

@@ -7,6 +7,6 @@ namespace Microservices.Core
 {
     public interface IMicroservicesLocator
     {
-		List<Type> FindMicroservices();
+		List<IMicroservice> LocateMicroservices();
     }
 }
