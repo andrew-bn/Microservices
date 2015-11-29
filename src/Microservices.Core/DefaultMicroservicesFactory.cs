@@ -34,16 +34,16 @@ namespace Microservices.Core
 					{
 						if (t.Namespace != null && (t.Namespace.Contains(".Microservices.") || t.Namespace.EndsWith(".Microservices"))
 								&& t.Name.EndsWith("Microservice"))
-							result.Add(CreateMicroservice(t));
+							result.Add(CreateMicroservice(t, microservicesHost));
 					}
 				}
 			}
 			return result;
 		}
 
-		protected virtual IMicroservice CreateMicroservice(Type type)
+		protected virtual IMicroservice CreateMicroservice(Type type, IMicroservicesHost microservicesHost)
 		{
-			return new Microservice(ExtractMicroserviceName(type), type, _serviceProvider);
+			return new Microservice(microservicesHost, ExtractMicroserviceName(type), type, _serviceProvider);
 		}
 		protected virtual string ExtractMicroserviceName(Type type)
 		{

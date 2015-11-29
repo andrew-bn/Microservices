@@ -17,13 +17,14 @@ namespace Microservices.Core
 		public IMessageHandler CatchAll { get; }
 		public IMessageHandler Initializer { get; }
 		public IMicroserviceEvent[] Events { get; }
-
-		public Microservice(string microserviceName, Type type, IServiceProvider serviceProvider)
+		public IMicroservicesHost MicroservicesHost { get; }
+		public Microservice(IMicroservicesHost microservicesHost, string microserviceName, Type type, IServiceProvider serviceProvider)
 		{
 			_serviceProvider = serviceProvider;
 			Type = type;
 			Instance = InstantiateMicroservice(type);
 			Name = microserviceName;
+			MicroservicesHost = microservicesHost;
 		}
 
 		public async Task Invoke(string method, IMessageContext messageContext)
@@ -56,12 +57,7 @@ namespace Microservices.Core
 					value = srv;
 					skipped++;
 				}
-				else if (p.ParameterType == typeof (IMicroservicesCaller))
-				{
-					value = messageContext.Host.MicroservicesCaller;
-					skipped++;
-				}
-				else if (p.ParameterType == typeof (IMessageContext))
+				else if (p.ParameterType == typeof(IMessageContext))
 				{
 					value = messageContext;
 					skipped++;
@@ -76,17 +72,17 @@ namespace Microservices.Core
 					value = messageContext.Response;
 					skipped++;
 				}
-				else if (p.ParameterType == typeof (IMicroservicesHost))
+				else if (p.ParameterType == typeof(IMicroservicesHost))
 				{
 					value = messageContext.Host;
 					skipped++;
 				}
 				else
-					value = messageContext.Request.ReadParameter(p.ParameterType,
-						new RequestParameter(p.Position - skipped, p.Name)) ?? value;
+					value = messageContext.Request[p.Name].ValueAs(p.ParameterType)??value;
 
 				parameters.Add(value);
 			}
+
 			return parameters;
 		}
 
@@ -95,7 +91,6 @@ namespace Microservices.Core
 			var ctor = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance)[0];
 			return ctor.Invoke(ctor.GetParameters().Select(p =>
 			{
-
 				return _serviceProvider.GetService(p.ParameterType);
 			}).ToArray());
 		}

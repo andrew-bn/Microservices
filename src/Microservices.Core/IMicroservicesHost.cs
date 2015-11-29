@@ -6,7 +6,7 @@ namespace Microservices.Core
     {
 	    void Initialize();
 		IMicroservice DefaultMicroservice { get; set; }
-		IMicroservicesCaller MicroservicesCaller { get; }
+		dynamic DynamicProxy { get; }
 		Task Process(IMessageContext messageContext);
     }
 }

@@ -14,17 +14,15 @@ namespace Microservices.Core
 		private readonly IMicroservicesFactory _microservicesFactory;
 		private readonly IEventsHandler _eventsHandler;
 		private Dictionary<string, IMicroservice> _microservices;
-		public IMicroservicesCaller MicroservicesCaller { get; }
 		public IMicroservice DefaultMicroservice { get; set; }
 
-		public MicroservicesHost(IOptions<MicroservicesOptions> options, IMicroservicesFactory microservicesFactory, IEventsHandler eventsHandler)
+		public dynamic DynamicProxy { get { return new DynamicProxy(this); } }
+
+		public MicroservicesHost(IOptions<MicroservicesOptions> options, IMicroservicesFactory microservicesFactory)
 		{
 			_options = options.Value;
 			_microservicesFactory = microservicesFactory;
-			_eventsHandler = eventsHandler;
 
-
-			MicroservicesCaller = new MicroservicesCaller(this);
 		}
 
 		public async Task Process(IMessageContext messageContext)
@@ -34,7 +32,7 @@ namespace Microservices.Core
 
 			var srv = FindMicroservice(messageContext);
 
-			await srv.Invoke(messageContext.Request.MicroserviceMethod, messageContext);
+			await srv.Invoke(messageContext.Request.MessageName, messageContext);
 		}
 
 		private IMicroservice FindMicroservice(IMessageContext msgContext)
@@ -51,7 +49,7 @@ namespace Microservices.Core
 		}
 		public void Initialize()
 		{
-			_microservices = _microservicesFactory.LocateMicroservices()
+			_microservices = _microservicesFactory.LocateMicroservices(this)
 				.ToDictionary(s => s.Name.ToLower(), s => s);
 		}
 

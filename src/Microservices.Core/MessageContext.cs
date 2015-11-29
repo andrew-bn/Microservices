@@ -5,7 +5,7 @@ namespace Microservices.Core
 		IMicroservicesHost Host { get; }
 
 		IMessage Request { get; }
-        MessageSource Source { get; }
+        IMessageSource Source { get; }
         IMessageResponse Response { get; }
 	}
 }

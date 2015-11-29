@@ -9,7 +9,7 @@ namespace Microservices.Core
 	{
 		public static IMessage AsMessage(this object obj)
 		{
-			
+			return null;
 		}
 
 }

@@ -8,15 +8,24 @@ namespace Microservices.HostService.Microservices
 {
     public class HostMicroservice
     {
-	    public event EventHandler<int> MyEvent;
+		private IMicroservicesHost _host;
+		public HostMicroservice(IMicroservicesHost host)
+		{
+			_host = host;
+		}
+		public event EventHandler<int> MyEvent;
 
-	    public async Task<int> Index(dynamic services, int param1)
+	    public async Task<int> Index(int param1)
 	    {
-		    await services.Namecheap.Domain.Dns.Add("asdf", 23);
-			OnMyEvent(param1);
+			//await _host.DynamicProxy.Namecheap.Domain.Dns.Add(type:"MX",host:"@",data:"example.com",priority:23);
+			//await _host.DynamicProxy.Namecheap.Domain.Dns.RecordAdded.Subscribe((EventHandler<int>)OnRecordAdded);
+			//OnMyEvent(param1);
 		    return param1;
 	    }
+		private async void OnRecordAdded(object sender, int id)
+		{
 
+		}
 	    protected virtual void OnMyEvent(int obj)
 	    {
 		    MyEvent?.Invoke(this, obj);
