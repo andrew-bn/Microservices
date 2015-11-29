@@ -22,7 +22,7 @@ namespace Microservices.Core
 			var result = new List<IMicroservice>();
 			foreach (var l in _libraryManager.GetLibraries()
 								.Where(lbl => !lbl.Name.StartsWith("Microsoft"))
-								.Where(lbl => !lbl.Name.StartsWith("System")))
+							.Where(lbl => !lbl.Name.StartsWith("System")))
 			{
 				foreach (var an in l.Assemblies.Where(asm=>
 											!asm.Name.StartsWith("Microsoft") &&
