@@ -23,7 +23,6 @@ namespace Microservices.Core
 
     public interface IMessage: IMessageObject
 	{
-        string Microservice { get; }
-        string MessageName { get; }
+        string Name { get; }
 	}
 }

@@ -10,7 +10,7 @@ namespace Microservices.Core
 	{
 		public string Microservice { get; set; }
 
-		public string MessageName { get; set; }
+		public string Name { get; set; }
 		public Dictionary<string,object> Parameters { get; set; }
 
 		public bool IsObject
@@ -101,7 +101,7 @@ namespace Microservices.Core
 		{
 			var message = new DynamicMessage();
 			message.Microservice = _microservice;
-			message.MessageName = _lastPart;
+			message.Name = _lastPart;
 			message.Parameters = new Dictionary<string, object>();
 			var i = 0;
 			foreach(var a in binder.CallInfo.ArgumentNames)
@@ -109,13 +109,7 @@ namespace Microservices.Core
 				message.Parameters.Add(a, args[i]);
 				i++;
 			}
-			result = Host.Process(new DynamicMessageContext
-			{
-				Host = this.Host,
-				Request = message,
-				Response = null,
-				Source = this
-			});
+			result = Host.Handle(message);
 			return true;
 		}
 	}

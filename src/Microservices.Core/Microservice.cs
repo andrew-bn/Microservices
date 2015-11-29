@@ -27,19 +27,19 @@ namespace Microservices.Core
 			MicroservicesHost = microservicesHost;
 		}
 
-		public async Task Invoke(string method, IMessageContext messageContext)
+		public async Task<IMessage> Invoke(IMessage message)
 		{
-			var methodInfo = Type.GetMethod(method, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+			var methodInfo = Type.GetMethod(message.Name, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
 
-			var parameters = CollectParameters(messageContext, methodInfo);
+			var parameters = CollectParameters(message, methodInfo);
 
 			var task = (Task)methodInfo.Invoke(Instance, parameters.ToArray());
 			await task;
 			var result = task.GetType().GetProperty("Result").GetValue(task);
-			await messageContext.Response.WriteResult(result);
+			return result.AsMessage();
 		}
 
-		private List<object> CollectParameters(IMessageContext messageContext, MethodInfo methodInfo)
+		private List<object> CollectParameters(IMessage message, MethodInfo methodInfo)
 		{
 			var parameters = new List<object>();
 			var skipped = 0;
@@ -57,28 +57,18 @@ namespace Microservices.Core
 					value = srv;
 					skipped++;
 				}
-				else if (p.ParameterType == typeof(IMessageContext))
-				{
-					value = messageContext;
-					skipped++;
-				}
 				else if (p.ParameterType == typeof(IMessage))
 				{
-					value = messageContext.Request;
-					skipped++;
-				}
-				else if (p.ParameterType == typeof(IMessageResponse))
-				{
-					value = messageContext.Response;
+					value = message;
 					skipped++;
 				}
 				else if (p.ParameterType == typeof(IMicroservicesHost))
 				{
-					value = messageContext.Host;
+					value = MicroservicesHost;
 					skipped++;
 				}
 				else
-					value = messageContext.Request[p.Name].ValueAs(p.ParameterType)??value;
+					value = message[p.Name].ValueAs(p.ParameterType)??value;
 
 				parameters.Add(value);
 			}

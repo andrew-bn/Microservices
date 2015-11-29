@@ -28,6 +28,6 @@ namespace Microservices.Core
 		IMessageHandler CatchAll { get; }
 		IMessageHandler Initializer { get; }
 		IMicroserviceEvent[] Events { get; }
-		Task Invoke(string method, IMessageContext messageContext);
+		Task<IMessage> Invoke(IMessage message);
 	}
 }

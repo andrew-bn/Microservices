@@ -17,6 +17,7 @@ namespace Microservices.Core
 		public IMicroservice DefaultMicroservice { get; set; }
 
 		public dynamic DynamicProxy { get { return new DynamicProxy(this); } }
+		
 
 		public MicroservicesHost(IOptions<MicroservicesOptions> options, IMicroservicesFactory microservicesFactory)
 		{
@@ -25,23 +26,24 @@ namespace Microservices.Core
 
 		}
 
-		public async Task Process(IMessageContext messageContext)
+		public async Task<IMessage> Handle(IMessage message)
 		{
-			if (messageContext == null)
-				throw new ArgumentNullException(nameof(messageContext));
+			if (message == null)
+				throw new ArgumentNullException(nameof(message));
 
-			var srv = FindMicroservice(messageContext);
+			var srv = FindMicroservice(message);
 
-			await srv.Invoke(messageContext.Request.MessageName, messageContext);
+			return await srv.Invoke(message);
 		}
 
-		private IMicroservice FindMicroservice(IMessageContext msgContext)
+		private IMicroservice FindMicroservice(IMessage message)
 		{
+			var microserviceName = message.Name.Split('.').Last().ToLower();
 			IMicroservice srv;
-			if (!_microservices.TryGetValue(msgContext.Request.Microservice.ToLower(), out srv))
+			if (!_microservices.TryGetValue(microserviceName, out srv))
 				srv = DefaultMicroservice;
 			if (srv == null)
-				throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, msgContext);
+				throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, message);
 
 			return srv;
 

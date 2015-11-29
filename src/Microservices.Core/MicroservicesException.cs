@@ -9,7 +9,7 @@ namespace Microservices.Core
 	{
 		public MicroservicesError Error { get; }
 
-		public MicroservicesException(MicroservicesError error, IMessageContext message)
+		public MicroservicesException(MicroservicesError error, IMessage message)
 		{
 			Error = error;
 		}

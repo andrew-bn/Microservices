@@ -15,7 +15,8 @@ namespace Microservices.AspNet5Source
 		{
 			var message = new HttpMiddlewareMessageContext(Host, this, context);
 			await message.Prepare();
-			await Process(message);
+			var result = await Handle(message.Request);
+			
 		}
 
 		public VirtualPathData GetVirtualPath(VirtualPathContext context)

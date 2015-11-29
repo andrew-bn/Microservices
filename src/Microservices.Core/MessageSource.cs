@@ -15,9 +15,9 @@ namespace Microservices.Core
             Host = host;
         }
 
-        protected async Task Process(IMessageContext messageContext)
+        protected Task<IMessage> Handle(IMessage message)
         {
-            await Host.Process(messageContext);
+            return Host.Handle(message);
         }
     }
 }

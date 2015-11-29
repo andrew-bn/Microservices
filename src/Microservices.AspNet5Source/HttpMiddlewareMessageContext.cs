@@ -17,16 +17,15 @@ namespace Microservices.AspNet5Source
 	public class JsonNetBasedMessage : IMessage
 	{
 		private JToken _obj;
-		public JsonNetBasedMessage(string microservice, string messageName, JToken obj)
+		public JsonNetBasedMessage(string microservice, string name, JToken obj)
 		{
 			_obj = obj;
-			Microservice = microservice;
-			MessageName = messageName;
+			
+			Name = microservice+"."+ name;
 		}
 
-		public string MessageName { get; }
-
-		public string Microservice { get; }
+		public string Name { get; }
+		
 
 		public MessageObjectType ObjectType
 		{

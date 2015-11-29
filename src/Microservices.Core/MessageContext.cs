@@ -6,6 +6,5 @@ namespace Microservices.Core
 
 		IMessage Request { get; }
         IMessageSource Source { get; }
-        IMessageResponse Response { get; }
 	}
 }
