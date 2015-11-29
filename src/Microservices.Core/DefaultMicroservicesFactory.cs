@@ -6,18 +6,18 @@ using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Microservices.Core
 {
-	public class DefaultMicroservicesLocator : IMicroservicesLocator
+	public class DefaultMicroservicesFactory : IMicroservicesFactory
 	{
 		private readonly ILibraryManager _libraryManager;
 		private readonly IServiceProvider _serviceProvider;
 
-		public DefaultMicroservicesLocator(ILibraryManager libraryManager, IServiceProvider serviceProvider)
+		public DefaultMicroservicesFactory(ILibraryManager libraryManager, IServiceProvider serviceProvider)
 		{
 			_libraryManager = libraryManager;
 			_serviceProvider = serviceProvider;
 		}
 
-		public virtual List<IMicroservice> LocateMicroservices()
+		public virtual List<IMicroservice> LocateMicroservices(IMicroservicesHost microservicesHost)
 		{
 			var result = new List<IMicroservice>();
 			foreach (var l in _libraryManager.GetLibraries()
@@ -34,13 +34,17 @@ namespace Microservices.Core
 					{
 						if (t.Namespace != null && (t.Namespace.Contains(".Microservices.") || t.Namespace.EndsWith(".Microservices"))
 								&& t.Name.EndsWith("Microservice"))
-							result.Add(new Microservice(ExtractMicroserviceName(t), t, _serviceProvider));
+							result.Add(CreateMicroservice(t));
 					}
 				}
 			}
 			return result;
 		}
 
+		protected virtual IMicroservice CreateMicroservice(Type type)
+		{
+			return new Microservice(ExtractMicroserviceName(type), type, _serviceProvider);
+		}
 		protected virtual string ExtractMicroserviceName(Type type)
 		{
 			var name = type.Name;

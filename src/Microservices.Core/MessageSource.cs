@@ -2,18 +2,22 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
-    public abstract class MessageSource
-    {
-        protected IMicroservicesDispatcher Dispatcher { get; }
+	public interface IMessageSource
+	{
+		IMicroservicesHost Host { get; }
+	}
+    public abstract class MessageSource: IMessageSource
+	{
+        public IMicroservicesHost Host { get; }
 
-        protected MessageSource(IMicroservicesDispatcher dispatcher)
+        protected MessageSource(IMicroservicesHost host)
         {
-            Dispatcher = dispatcher;
+            Host = host;
         }
 
         protected async Task Process(IMessageContext messageContext)
         {
-            await Dispatcher.Process(messageContext);
+            await Host.Process(messageContext);
         }
     }
 }

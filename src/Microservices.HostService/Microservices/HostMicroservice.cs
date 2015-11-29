@@ -8,9 +8,18 @@ namespace Microservices.HostService.Microservices
 {
     public class HostMicroservice
     {
-	    public async Task<int> Index(int param1)
+	    public event EventHandler<int> MyEvent;
+
+	    public async Task<int> Index(dynamic services, int param1)
 	    {
+		    await services.Namecheap.Domain.Dns.Add("asdf", 23);
+			OnMyEvent(param1);
 		    return param1;
+	    }
+
+	    protected virtual void OnMyEvent(int obj)
+	    {
+		    MyEvent?.Invoke(this, obj);
 	    }
     }
 }

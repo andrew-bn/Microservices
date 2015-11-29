@@ -5,8 +5,12 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
-    public class MicroservicesOptions
-    {
-		public string DefaultMicroservice { get; set; }
-	}
+	public static class Extensions
+	{
+		public static IMessage AsMessage(this object obj)
+		{
+			
+		}
+
+}
 }

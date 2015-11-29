@@ -6,14 +6,14 @@ namespace Microservices.AspNet5Source
 {
 	public class HttpMicroserviceMessageSource : MessageSource, IRouter
 	{
-		public HttpMicroserviceMessageSource(IMicroservicesDispatcher dispatcher)
-			: base(dispatcher)
+		public HttpMicroserviceMessageSource(IMicroservicesHost host)
+			: base(host)
 		{
 		}
 
 		public async Task RouteAsync(RouteContext context)
 		{
-			var message = new HttpMiddlewareMessageContext(Dispatcher, this, context);
+			var message = new HttpMiddlewareMessageContext(Host, this, context);
 			await message.Prepare();
 			await Process(message);
 		}

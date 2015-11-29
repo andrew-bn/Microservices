@@ -2,9 +2,9 @@ using System;
 
 namespace Microservices.Core
 {
-    public interface IMessageRequest
+    public interface IMessage
     {
-        string MicroserviceName { get; }
+        string Microservice { get; }
         string MicroserviceMethod { get; }
 
 		object ReadParameter(Type type, RequestParameter parameter);

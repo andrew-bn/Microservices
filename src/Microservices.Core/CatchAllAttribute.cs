@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
-    public interface IMicroservicesLocator
+    public class CatchAllAttribute: Attribute
     {
-		List<IMicroservice> LocateMicroservices();
     }
 }

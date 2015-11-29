@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microservices.AspNet5Source;
+using Microservices.RabbitMQEventHandler;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +26,6 @@ namespace Microservices.AspNetHosting
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			
             services.AddOptions();
 			services.AddRouting();
 

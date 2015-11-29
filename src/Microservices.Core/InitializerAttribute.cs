@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
-    public class MicroservicesOptions
+    public class InitializerAttribute: Attribute
     {
-		public string DefaultMicroservice { get; set; }
-	}
+    }
 }

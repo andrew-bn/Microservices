@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microservices.AspNet5Source
 {
-	public class HttpMiddlewareMessageContext : IMessageContext, IMessageResponse, IMessageRequest
+	public class HttpMiddlewareMessageContext : IMessageContext, IMessageResponse, IMessage
 	{
 		private const string MicroserviceNameKey = "microservice";
 		private const string DefaultMicroserviceName = "host";
@@ -32,22 +32,22 @@ namespace Microservices.AspNet5Source
 			_jsonRequest = (JObject)JsonSerializer.Create().Deserialize(jr);
 		}
 
-		public IMicroservicesDispatcher Dispatcher { get; }
-		public IMessageRequest Request { get; }
+		public IMicroservicesHost Host { get; }
+		public IMessage Request { get; }
 		public MessageSource Source { get; }
 
-		public string MicroserviceName { get; }
+		public string Microservice { get; }
 		public string MicroserviceMethod { get; }
 
-		public HttpMiddlewareMessageContext(IMicroservicesDispatcher dispatcher, MessageSource source, RouteContext routeContext)
+		public HttpMiddlewareMessageContext(IMicroservicesHost host, MessageSource source, RouteContext routeContext)
 		{
-			Dispatcher = dispatcher;
+			Host = host;
 			_routeContext = routeContext;
 			Response = this;
 			Request = this;
 			Source = source;
 
-			MicroserviceName = routeContext.RouteData.Values[MicroserviceNameKey]?.ToString() ?? DefaultMicroserviceName;
+			Microservice = routeContext.RouteData.Values[MicroserviceNameKey]?.ToString() ?? DefaultMicroserviceName;
 			MicroserviceMethod = routeContext.RouteData.Values[MicroserviceMethodNameKey]?.ToString() ?? DefaultMicroserviceMethodName;
 
 		}
