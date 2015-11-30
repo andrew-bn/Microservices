@@ -17,8 +17,8 @@ namespace Microservices.Core
 		public IMessageHandler CatchAll { get; }
 		public IMessageHandler Initializer { get; }
 		public IMicroserviceEvent[] Events { get; }
-		public IMicroservicesHost MicroservicesHost { get; }
-		public Microservice(IMicroservicesHost microservicesHost, string microserviceName, Type type, IServiceProvider serviceProvider)
+		public IMessageHandlersHost MicroservicesHost { get; }
+		public Microservice(IMessageHandlersHost microservicesHost, string microserviceName, Type type, IServiceProvider serviceProvider)
 		{
 			_serviceProvider = serviceProvider;
 			Type = type;
@@ -27,19 +27,19 @@ namespace Microservices.Core
 			MicroservicesHost = microservicesHost;
 		}
 
-		public async Task<IMessage> Invoke(IMessage message)
+		public async Task Invoke(string method, IMessageContext messageContext)
 		{
-			var methodInfo = Type.GetMethod(message.Name, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+			var methodInfo = Type.GetMethod(method, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
 
-			var parameters = CollectParameters(message, methodInfo);
+			var parameters = CollectParameters(messageContext, methodInfo);
 
 			var task = (Task)methodInfo.Invoke(Instance, parameters.ToArray());
 			await task;
 			var result = task.GetType().GetProperty("Result").GetValue(task);
-			return result.AsMessage();
+			await messageContext.Response.WriteResult(result);
 		}
 
-		private List<object> CollectParameters(IMessage message, MethodInfo methodInfo)
+		private List<object> CollectParameters(IMessageContext messageContext, MethodInfo methodInfo)
 		{
 			var parameters = new List<object>();
 			var skipped = 0;
@@ -57,18 +57,28 @@ namespace Microservices.Core
 					value = srv;
 					skipped++;
 				}
-				else if (p.ParameterType == typeof(IMessage))
+				else if (p.ParameterType == typeof(IMessageContext))
 				{
-					value = message;
+					value = messageContext;
 					skipped++;
 				}
-				else if (p.ParameterType == typeof(IMicroservicesHost))
+				else if (p.ParameterType == typeof(IMessage))
 				{
-					value = MicroservicesHost;
+					value = messageContext.Request;
+					skipped++;
+				}
+				else if (p.ParameterType == typeof(IMessageResponse))
+				{
+					value = messageContext.Response;
+					skipped++;
+				}
+				else if (p.ParameterType == typeof(IMessageHandlersHost))
+				{
+					value = messageContext.Host;
 					skipped++;
 				}
 				else
-					value = message[p.Name].ValueAs(p.ParameterType)??value;
+					value = messageContext.Request[p.Name].ValueAs(p.ParameterType)??value;
 
 				parameters.Add(value);
 			}

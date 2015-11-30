@@ -27,24 +27,24 @@ namespace Microservices.AspNet5Source
 		public string Name { get; }
 		
 
-		public MessageObjectType ObjectType
+		public ParameterType ObjectType
 		{
 			get
 			{
 				if (_obj.Type == JTokenType.Float)
-					return MessageObjectType.Float;
+					return ParameterType.Float;
 				if (_obj.Type == JTokenType.Boolean)
-					return MessageObjectType.Boolean;
+					return ParameterType.Boolean;
 				if (_obj.Type == JTokenType.Integer)
-					return MessageObjectType.Integer;
+					return ParameterType.Integer;
 				if (_obj.Type == JTokenType.Object)
-					return MessageObjectType.Object;
+					return ParameterType.Object;
 				if (_obj.Type == JTokenType.Null)
-					return MessageObjectType.Null;
+					return ParameterType.Null;
 				if (_obj.Type == JTokenType.Array)
-					return MessageObjectType.Array;
+					return ParameterType.Array;
 
-				return MessageObjectType.String;
+				return ParameterType.String;
 			}
 		}
 
@@ -94,14 +94,14 @@ namespace Microservices.AspNet5Source
 		private readonly RouteContext _routeContext;
 		public IMessageResponse Response { get; }
 
-		public IMicroservicesHost Host { get; }
+		public IMessageHandlersHost Host { get; }
 		public IMessage Request { get; private set; }
 		public IMessageSource Source { get; }
 
 		public string Microservice { get; }
 		public string MessageName { get; }
 
-		public HttpMiddlewareMessageContext(IMicroservicesHost host, MessageSource source, RouteContext routeContext)
+		public HttpMiddlewareMessageContext(IMessageHandlersHost host, MessageSource source, RouteContext routeContext)
 		{
 			Host = host;
 			_routeContext = routeContext;

@@ -29,7 +29,7 @@ namespace Microservices.Core
 			}
 		}
 
-		public MessageObjectType ObjectType
+		public ParameterType ObjectType
 		{
 			get
 			{
@@ -70,7 +70,7 @@ namespace Microservices.Core
 	}
 	public class DynamicMessageContext : IMessageContext
 	{
-		public IMicroservicesHost Host { get; set; }
+		public IMessageHandlersHost Host { get; set; }
 		public IMessage Request { get; set; }
 		public IMessageResponse Response { get; set; }
 		public IMessageSource Source { get; set; }
@@ -80,9 +80,9 @@ namespace Microservices.Core
 	{
 		private string _microservice = "";
 		private string _lastPart = "";
-		public IMicroservicesHost Host { get; }
+		public IMessageHandlersHost Host { get; }
 
-	    public DynamicProxy(IMicroservicesHost host)
+	    public DynamicProxy(IMessageHandlersHost host)
 	    {
 		    Host = host;
 	    }

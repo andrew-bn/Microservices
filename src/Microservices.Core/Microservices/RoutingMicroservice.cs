@@ -8,7 +8,7 @@ namespace Microservices.Core.Microservices
     public class RoutingMicroservice
     {
 		[Initializer]
-	    public async Task Initialize(IMicroservicesHost host, IMicroservice microservice)
+	    public async Task Initialize(IMessageHandlersHost host, IMicroservice microservice)
 		{
 			host.DefaultMicroservice = microservice;
 		}

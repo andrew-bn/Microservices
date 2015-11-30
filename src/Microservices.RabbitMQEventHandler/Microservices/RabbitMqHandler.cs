@@ -10,7 +10,7 @@ namespace Microservices.RabbitMQEventHandler
 	public class RabbitMqHandlerMicroservice
 	{
 		[Initializer]
-		public void Initialize(IMicroservicesHost host)
+		public void Initialize(IMessageHandlersHost host)
 		{
 			
 		}

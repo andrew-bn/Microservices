@@ -4,13 +4,13 @@ namespace Microservices.Core
 {
 	public interface IMessageSource
 	{
-		IMicroservicesHost Host { get; }
+		IMessageHandlersHost Host { get; }
 	}
     public abstract class MessageSource: IMessageSource
 	{
-        public IMicroservicesHost Host { get; }
+        public IMessageHandlersHost Host { get; }
 
-        protected MessageSource(IMicroservicesHost host)
+        protected MessageSource(IMessageHandlersHost host)
         {
             Host = host;
         }

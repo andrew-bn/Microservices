@@ -1,33 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
-	public interface IMicroserviceParameter
+	public enum ParameterType
 	{
-		string Name { get; }
-		Type Type { get; }
+		String,
+		Integer,
+		Float,
+		Object,
+		Array,
+		Boolean,
 	}
 
-	public interface IMicroserviceEvent
+	public interface IMessageSchema
 	{
 		string Name { get; }
-		Type EventArgs { get; }
+		ParameterType Type { get; }
+		IDictionary<string, IMessageSchema> Parameters { get; set; }
 	}
+	
 	public interface IMessageHandler
 	{
-		string Name { get; }
-		IMicroserviceParameter[] Parameters { get; }
-		
-	}
-	public interface IMicroservice
-	{
-		object Instance { get; }
-		string Name { get; }
-		IMessageHandler[] Handlers { get; }
-		IMessageHandler CatchAll { get; }
-		IMessageHandler Initializer { get; }
-		IMicroserviceEvent[] Events { get; }
-		Task<IMessage> Invoke(IMessage message);
+		string CatchPattern { get; }
+		IMessageSchema Message { get; }
+		IMessageSchema Response { get; }
+		Task<IMessage> Handle(IMessage message);
 	}
 }

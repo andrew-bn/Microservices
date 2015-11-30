@@ -8,8 +8,8 @@ namespace Microservices.HostService.Microservices
 {
     public class HostMicroservice
     {
-		private IMicroservicesHost _host;
-		public HostMicroservice(IMicroservicesHost host)
+		private IMessageHandlersHost _host;
+		public HostMicroservice(IMessageHandlersHost host)
 		{
 			_host = host;
 		}

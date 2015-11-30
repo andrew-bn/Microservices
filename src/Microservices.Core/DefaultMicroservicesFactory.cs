@@ -6,18 +6,18 @@ using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Microservices.Core
 {
-	public class DefaultMicroservicesFactory : IMicroservicesFactory
+	public class MessageHandlersLocator : IMicroservicesFactory
 	{
 		private readonly ILibraryManager _libraryManager;
 		private readonly IServiceProvider _serviceProvider;
 
-		public DefaultMicroservicesFactory(ILibraryManager libraryManager, IServiceProvider serviceProvider)
+		public MessageHandlersLocator(ILibraryManager libraryManager, IMessageHandlersHost messageHanldersHost, IServiceProvider serviceProvider)
 		{
 			_libraryManager = libraryManager;
 			_serviceProvider = serviceProvider;
 		}
 
-		public virtual List<IMicroservice> LocateMicroservices(IMicroservicesHost microservicesHost)
+		public virtual List<IMicroservice> LocateMicroservices(IMessageHandlersHost microservicesHost)
 		{
 			var result = new List<IMicroservice>();
 			foreach (var l in _libraryManager.GetLibraries()
@@ -41,7 +41,7 @@ namespace Microservices.Core
 			return result;
 		}
 
-		protected virtual IMicroservice CreateMicroservice(Type type, IMicroservicesHost microservicesHost)
+		protected virtual IMicroservice CreateMicroservice(Type type, IMessageHandlersHost microservicesHost)
 		{
 			return new Microservice(microservicesHost, ExtractMicroserviceName(type), type, _serviceProvider);
 		}

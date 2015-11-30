@@ -8,22 +8,16 @@ using Microsoft.Extensions.OptionsModel;
 
 namespace Microservices.Core
 {
-	public class MicroservicesHost : IMicroservicesHost
+	public class MicroservicesHost : IMessageHandlersHost
 	{
 		private readonly MicroservicesOptions _options;
-		private readonly IMicroservicesFactory _microservicesFactory;
-		private readonly IEventsHandler _eventsHandler;
-		private Dictionary<string, IMicroservice> _microservices;
-		public IMicroservice DefaultMicroservice { get; set; }
-
+		private List<IMessageHandler> _messageHandlers;
 		public dynamic DynamicProxy { get { return new DynamicProxy(this); } }
 		
 
-		public MicroservicesHost(IOptions<MicroservicesOptions> options, IMicroservicesFactory microservicesFactory)
+		public MicroservicesHost(IOptions<MicroservicesOptions> options)
 		{
 			_options = options.Value;
-			_microservicesFactory = microservicesFactory;
-
 		}
 
 		public async Task<IMessage> Handle(IMessage message)
@@ -31,29 +25,33 @@ namespace Microservices.Core
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
 
-			var srv = FindMicroservice(message);
+			var handler = FindHandler(message);
 
-			return await srv.Invoke(message);
+			return await handler.Handle(message);
 		}
 
-		private IMicroservice FindMicroservice(IMessage message)
+		private IMessageHandler FindHandler(IMessage message)
 		{
-			var microserviceName = message.Name.Split('.').Last().ToLower();
-			IMicroservice srv;
-			if (!_microservices.TryGetValue(microserviceName, out srv))
-				srv = DefaultMicroservice;
-			if (srv == null)
-				throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, message);
+			//var microserviceName = message.Name.Split('.').Last().ToLower();
+			//IMicroservice srv;
+			//if (!_messageHandlers.TryGetValue(microserviceName, out srv))
+			//	srv = DefaultMicroservice;
+			//if (srv == null)
+			//	throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, message);
 
-			return srv;
-
+			//return srv;
+			return null;
 
 		}
-		public void Initialize()
+
+		public Task Register(IMessageHandler handler)
 		{
-			_microservices = _microservicesFactory.LocateMicroservices(this)
-				.ToDictionary(s => s.Name.ToLower(), s => s);
+			throw new NotImplementedException();
 		}
 
+		public Task Unregister(string name)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

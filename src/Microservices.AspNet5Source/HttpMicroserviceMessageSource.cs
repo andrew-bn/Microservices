@@ -6,7 +6,7 @@ namespace Microservices.AspNet5Source
 {
 	public class HttpMicroserviceMessageSource : MessageSource, IRouter
 	{
-		public HttpMicroserviceMessageSource(IMicroservicesHost host)
+		public HttpMicroserviceMessageSource(IMessageHandlersHost host)
 			: base(host)
 		{
 		}

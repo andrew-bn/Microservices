@@ -7,6 +7,6 @@ namespace Microservices.Core
 {
     public interface IMicroservicesRepository
     {
-	    void Register(IMicroservicesHost host, IMicroservice microservice);
+	    void Register(IMessageHandlersHost host, IMicroservice microservice);
     }
 }

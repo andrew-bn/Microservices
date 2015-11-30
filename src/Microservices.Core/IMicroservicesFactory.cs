@@ -7,6 +7,6 @@ namespace Microservices.Core
 {
     public interface IMicroservicesFactory
     {
-		List<IMicroservice> LocateMicroservices(IMicroservicesHost microservicesHost);
+		List<IMicroservice> LocateMicroservices(IMessageHandlersHost microservicesHost);
     }
 }
