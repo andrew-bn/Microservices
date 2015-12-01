@@ -66,17 +66,13 @@ namespace Microservices.AspNet5Source
 			}
 		}
 
-		public IDictionary<string, IMessageSchema> Parameters
+		public IEnumerable<IMessageSchema> Parameters
 		{
 			get
 			{
 				throw new NotImplementedException();
 			}
 
-			set
-			{
-				throw new NotImplementedException();
-			}
 		}
 
 		public IMessage this[string parameterName]

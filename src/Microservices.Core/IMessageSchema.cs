@@ -9,6 +9,6 @@ namespace Microservices.Core.Messaging
 	{
 		string Name { get; }
 		ParameterType Type { get; }
-		IDictionary<string, IMessageSchema> Parameters { get; set; }
+		IEnumerable<IMessageSchema> Parameters { get; }
 	}
 }

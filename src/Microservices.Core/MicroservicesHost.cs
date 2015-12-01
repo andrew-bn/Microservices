@@ -27,8 +27,6 @@ namespace Microservices.Core
 			return await handler.Handle(message);
 		}
 
-
-
 		public void AddDependency<T>(T implementation)
 		{
 			_serviceLocator.Add(typeof(T), implementation);
