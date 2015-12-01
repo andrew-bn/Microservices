@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
-	public interface IEventsHandler
-	{
-		void Handle(IMicroservice microservice, IMicroserviceEvent @event, EventArgs arguments);
-	}
+    public interface IMessageHandlersProvider
+    {
+		void ProvideMessageHandlers();
+    }
 }

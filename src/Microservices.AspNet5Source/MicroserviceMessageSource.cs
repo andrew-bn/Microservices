@@ -25,7 +25,10 @@ namespace Microservices.AspNet5Source
 		public static IApplicationBuilder UseMicroservices(this IApplicationBuilder app, Action<IRouteBuilder> configureRoutes)
 		{
 			var host = app.ApplicationServices.GetService<IMessageHandlersHost>();
-			host.Initialize();
+			var messageHandlerProviders = app.ApplicationServices.GetServices<IMessageHandlersProvider>();
+
+			foreach(var provider in messageHandlerProviders)
+				provider.ProvideMessageHandlers();
 
 			var routes = new RouteBuilder
 			{
@@ -46,8 +49,7 @@ namespace Microservices.AspNet5Source
 
 			services.Configure<MicroservicesOptions>(configuration.GetSection("Microservices"));
 			services.AddSingleton<IMessageHandlersHost, MicroservicesHost>();
-			services.AddSingleton<IMicroservicesFactory, MessageHandlersLocator>();
-			
+			services.AddSingleton<IMessageHandlersProvider, MicroservicesProvider>();
 		}
 	}
 }

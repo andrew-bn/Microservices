@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microservices.Core;
+using Microservices.Core.Messaging;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
 using Newtonsoft.Json;
@@ -14,75 +15,7 @@ using Newtonsoft.Json.Linq;
 namespace Microservices.AspNet5Source
 {
 
-	public class JsonNetBasedMessage : IMessage
-	{
-		private JToken _obj;
-		public JsonNetBasedMessage(string microservice, string name, JToken obj)
-		{
-			_obj = obj;
-			
-			Name = microservice+"."+ name;
-		}
-
-		public string Name { get; }
-		
-
-		public ParameterType ObjectType
-		{
-			get
-			{
-				if (_obj.Type == JTokenType.Float)
-					return ParameterType.Float;
-				if (_obj.Type == JTokenType.Boolean)
-					return ParameterType.Boolean;
-				if (_obj.Type == JTokenType.Integer)
-					return ParameterType.Integer;
-				if (_obj.Type == JTokenType.Object)
-					return ParameterType.Object;
-				if (_obj.Type == JTokenType.Null)
-					return ParameterType.Null;
-				if (_obj.Type == JTokenType.Array)
-					return ParameterType.Array;
-
-				return ParameterType.String;
-			}
-		}
-
-		public IMessageObject this[int parameterIndex]
-		{
-			get
-			{
-				return new JsonNetBasedMessage(null, null, _obj[parameterIndex]);
-			}
-		}
-
-		public IMessageObject this[string parameterName]
-		{
-			get
-			{
-				return new JsonNetBasedMessage(null, null, _obj[parameterName]);
-			}
-		}
-
-		public object Value
-		{
-			get
-			{
-				if (_obj.Type == JTokenType.Integer)
-					return ValueAs(typeof(long));
-				return ValueAs(typeof(string));
-			}
-		}
-
-
-		public object ValueAs(Type type)
-		{
-			return _obj.ToObject(type);
-		}
-	}
-
-
-	public class HttpMiddlewareMessageContext : IMessageContext, IMessageResponse
+	public class HttpJsonMessage : IMessage
 	{
 		private const string MicroserviceNameKey = "microservice";
 		private const string DefaultMicroserviceName = "host";
@@ -90,27 +23,68 @@ namespace Microservices.AspNet5Source
 		private const string MicroserviceMethodNameKey = "method";
 		private const string DefaultMicroserviceMethodName = "index";
 
-		private JObject _jsonRequest;
 		private readonly RouteContext _routeContext;
-		public IMessageResponse Response { get; }
+		private JToken _jsonRequest;
 
-		public IMessageHandlersHost Host { get; }
-		public IMessage Request { get; private set; }
-		public IMessageSource Source { get; }
-
-		public string Microservice { get; }
-		public string MessageName { get; }
-
-		public HttpMiddlewareMessageContext(IMessageHandlersHost host, MessageSource source, RouteContext routeContext)
+		public HttpJsonMessage(RouteContext routeContext)
 		{
-			Host = host;
-			_routeContext = routeContext;
-			Response = this;
-			Source = source;
+			var microservice = routeContext.RouteData.Values[MicroserviceNameKey]?.ToString() ?? DefaultMicroserviceName;
+			var messageName = routeContext.RouteData.Values[MicroserviceMethodNameKey]?.ToString() ?? DefaultMicroserviceMethodName;
+			Name = microservice + "." + messageName;
+		}
+		public HttpJsonMessage(string name, JToken jsonRequest)
+		{
+			Name = name;
+			_jsonRequest = jsonRequest;
+		}
+		public string Name { get; }
 
-			Microservice = routeContext.RouteData.Values[MicroserviceNameKey]?.ToString() ?? DefaultMicroserviceName;
-			MessageName = routeContext.RouteData.Values[MicroserviceMethodNameKey]?.ToString() ?? DefaultMicroserviceMethodName;
+		public ParameterType Type
+		{
+			get
+			{
+				if (_jsonRequest.Type == JTokenType.Float)
+					return ParameterType.Real;
+				if (_jsonRequest.Type == JTokenType.Boolean)
+					return ParameterType.Boolean;
+				if (_jsonRequest.Type == JTokenType.Integer)
+					return ParameterType.Integer;
+				if (_jsonRequest.Type == JTokenType.Object)
+					return ParameterType.Object;
+				if (_jsonRequest.Type == JTokenType.Array)
+					return ParameterType.Array;
 
+				return ParameterType.String;
+			}
+		}
+
+		public object Value
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public IDictionary<string, IMessageSchema> Parameters
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public IMessage this[string parameterName]
+		{
+			get
+			{
+				return new HttpJsonMessage(parameterName, _jsonRequest[parameterName]);
+			}
 		}
 
 		internal async Task Prepare()
@@ -118,25 +92,6 @@ namespace Microservices.AspNet5Source
 			var body = await ReadBody(_routeContext.HttpContext);
 			var jr = new JsonTextReader(new StringReader(body));
 			_jsonRequest = (JObject)JsonSerializer.Create().Deserialize(jr);
-			Request = new JsonNetBasedMessage(Microservice, MessageName, _jsonRequest);
-		}
-
-		public Task WriteString(string str)
-		{
-			return _routeContext.HttpContext.Response.WriteAsync(str);
-		}
-
-		public async Task WriteResult(object result)
-		{
-			var sw = new StringWriter();
-			JsonSerializer.Create().Serialize(sw, result);
-			await WriteString(sw.ToString());
-		}
-		public object ReadParameter(Type type, RequestParameter parameter)
-		{
-			return typeof(JObject).GetMethod("Value", BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Public)
-				.MakeGenericMethod(type)
-				.Invoke(_jsonRequest, new object[] { parameter.Name });
 		}
 
 		private async Task<string> ReadBody(HttpContext context)
@@ -151,6 +106,11 @@ namespace Microservices.AspNet5Source
 				done += await context.Request.Body.ReadAsync(data, done, data.Length - done);
 
 			return Encoding.UTF8.GetString(data);
+		}
+
+		public object ValueAs(Type type)
+		{
+			return _jsonRequest.ToObject(type);
 		}
 	}
 }

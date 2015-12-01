@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.OptionsModel;
 
 namespace Microservices.Core
@@ -12,10 +10,9 @@ namespace Microservices.Core
 	{
 		private readonly MicroservicesOptions _options;
 		private List<IMessageHandler> _messageHandlers;
-		public dynamic DynamicProxy { get { return new DynamicProxy(this); } }
-		
-
-		public MicroservicesHost(IOptions<MicroservicesOptions> options)
+		private Dictionary<Type, object> _serviceLocator = new Dictionary<Type, object>();
+		private IServiceProvider _serviceProvider;
+		public MicroservicesHost(IOptions<MicroservicesOptions> options, IServiceProvider serviceProvider)
 		{
 			_options = options.Value;
 		}
@@ -30,26 +27,35 @@ namespace Microservices.Core
 			return await handler.Handle(message);
 		}
 
+
+
+		public void AddDependency<T>(T implementation)
+		{
+			_serviceLocator.Add(typeof(T), implementation);
+		}
+
+		public object ResolveDependency(Type type)
+		{
+			var srv = _serviceProvider.GetService(type);
+			if (srv == null)
+				_serviceLocator.TryGetValue(type, out srv);
+			return srv;
+		}
+
 		private IMessageHandler FindHandler(IMessage message)
 		{
-			//var microserviceName = message.Name.Split('.').Last().ToLower();
-			//IMicroservice srv;
-			//if (!_messageHandlers.TryGetValue(microserviceName, out srv))
-			//	srv = DefaultMicroservice;
-			//if (srv == null)
-			//	throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, message);
-
-			//return srv;
-			return null;
-
+			var handler = _messageHandlers.FirstOrDefault(mh => mh.CatchPattern == message.Name);
+			if (handler == null)
+				throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, message);
+			return handler;
 		}
 
-		public Task Register(IMessageHandler handler)
+		public void Register(IMessageHandler handler)
 		{
-			throw new NotImplementedException();
+			_messageHandlers.Add(handler);
 		}
 
-		public Task Unregister(string name)
+		public void Unregister(string name)
 		{
 			throw new NotImplementedException();
 		}
