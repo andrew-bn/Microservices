@@ -16,7 +16,8 @@ namespace Microservices.Core
 		{
 			_instance = instance;
 			_method = method;
-		}
+			CatchPattern = $"{method.DeclaringType.Namespace.ToLower()}.{method.DeclaringType.Name.ToLower()}.{method.Name.ToLower()}";
+        }
 		public string CatchPattern { get; set; }
 		public IMessageSchema Message { get; set; }
 

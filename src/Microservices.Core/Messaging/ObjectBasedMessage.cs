@@ -5,22 +5,13 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core.Messaging
 {
-	public class ObjectBasedMessage : IMessage
+	public class TypeBasedSchema : IMessageSchema
 	{
-		public object UnderlyingObject { get; }
-		public ObjectBasedMessage(object message)
+		public Type UnderlyingType { get; }
+		public TypeBasedSchema(Type type)
 		{
-			UnderlyingObject = message;
+			UnderlyingType = type;
 		}
-
-		public IMessage this[string parameterName]
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
 		public string Name
 		{
 			get
@@ -49,6 +40,10 @@ namespace Microservices.Core.Messaging
 				throw new NotImplementedException();
 			}
 		}
+	}
+	public class ObjectBasedMessage : TypeBasedSchema, IMessage
+	{
+		public object UnderlyingObject { get; }
 
 		public object Value
 		{
@@ -56,6 +51,19 @@ namespace Microservices.Core.Messaging
 			{
 				throw new NotImplementedException();
 			}
+		}
+
+		public IMessage this[string parameterName]
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public ObjectBasedMessage(object message)
+		{
+			UnderlyingObject = message;
 		}
 
 		public object ValueAs(Type type)
