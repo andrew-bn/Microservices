@@ -6,27 +6,19 @@ using Microservices.Core;
 
 namespace Microservices.HostService.Microservices
 {
-    public class HostMicroservice
-    {
-		public event EventHandler<int> MyEvent;
-		private IMessageHandlersHost _host;
-
-	    public async Task<int> Index(int param1)
-	    {
-			//await _host.DynamicProxy.Namecheap.Domain.Dns.Add(type:"MX",host:"@",data:"example.com",priority:23);
-			//await _host.DynamicProxy.Namecheap.Domain.Dns.RecordAdded.Subscribe((EventHandler<int>)OnRecordAdded);
-			//OnMyEvent(param1);
-		    return param1;
-	    }
-
-		private async void OnRecordAdded(object sender, int id)
+	public class MessageHandlerInfo
+	{
+		public string CatchPattern { get; set; }
+	}
+	public class HostMicroservice
+	{
+		public async Task<string> Index(IMessageHandlersHost host)
 		{
-
+			return $"{host.Name}:{host.Version}";
 		}
-
-	    protected virtual void OnMyEvent(int obj)
-	    {
-		    MyEvent?.Invoke(this, obj);
-	    }
-    }
+		public async Task<MessageHandlerInfo[]> Handlers(IMessageHandlersHost host)
+		{
+			return host.MessageHandlers.Select(h => new MessageHandlerInfo() {CatchPattern = h.CatchPattern}).ToArray();
+		}
+	}
 }

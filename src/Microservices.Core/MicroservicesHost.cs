@@ -11,11 +11,16 @@ namespace Microservices.Core
 		private readonly MicroservicesOptions _options;
 		private readonly List<IMessageHandler> _messageHandlers = new List<IMessageHandler>();
 		private readonly Dictionary<Type, object> _serviceLocator = new Dictionary<Type, object>();
-		private IServiceProvider _serviceProvider;
+		private readonly IServiceProvider _serviceProvider;
+
+		public IEnumerable<IMessageHandler> MessageHandlers => _messageHandlers;
+
 		public MicroservicesHost(IOptions<MicroservicesOptions> options, IServiceProvider serviceProvider)
 		{
 			_options = options.Value;
 			_serviceProvider = serviceProvider;
+			Name = nameof(MicroservicesHost);
+			Version = "1.0.0";
 		}
 
 		public async Task<IMessage> Handle(IMessage message)
@@ -59,6 +64,10 @@ namespace Microservices.Core
 			throw new NotImplementedException();
 		}
 
+		public string Name { get; }
+		public string Version { get; }
+
+		
 		public async Task Initialize()
 		{
 			foreach (var eh in _messageHandlers.Where(eh => eh.CatchPattern.EndsWith(".initialize")))

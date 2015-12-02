@@ -34,6 +34,7 @@ namespace Microservices.Core
 			var result = task.GetType().GetProperty("Result").GetValue(task);
 			return new ObjectBasedMessage(result.GetType(), string.Empty, result);
 		}
+
 		private List<object> CollectParameters(IMessageHandlersHost host, IMessage message)
 		{
 			var parameters = new List<object>();
