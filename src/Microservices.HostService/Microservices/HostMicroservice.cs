@@ -8,12 +8,8 @@ namespace Microservices.HostService.Microservices
 {
     public class HostMicroservice
     {
-		private IMessageHandlersHost _host;
-		public HostMicroservice(IMessageHandlersHost host)
-		{
-			_host = host;
-		}
 		public event EventHandler<int> MyEvent;
+		private IMessageHandlersHost _host;
 
 	    public async Task<int> Index(int param1)
 	    {
@@ -22,10 +18,12 @@ namespace Microservices.HostService.Microservices
 			//OnMyEvent(param1);
 		    return param1;
 	    }
+
 		private async void OnRecordAdded(object sender, int id)
 		{
 
 		}
+
 	    protected virtual void OnMyEvent(int obj)
 	    {
 		    MyEvent?.Invoke(this, obj);

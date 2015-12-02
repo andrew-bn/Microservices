@@ -28,6 +28,7 @@ namespace Microservices.AspNet5Source
 
 		public HttpJsonMessage(RouteContext routeContext)
 		{
+			_routeContext = routeContext;
 			var microservice = routeContext.RouteData.Values[MicroserviceNameKey]?.ToString() ?? DefaultMicroserviceName;
 			var messageName = routeContext.RouteData.Values[MicroserviceMethodNameKey]?.ToString() ?? DefaultMicroserviceMethodName;
 			Name = microservice + "." + messageName;

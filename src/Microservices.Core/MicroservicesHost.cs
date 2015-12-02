@@ -9,12 +9,13 @@ namespace Microservices.Core
 	public class MicroservicesHost : IMessageHandlersHost
 	{
 		private readonly MicroservicesOptions _options;
-		private List<IMessageHandler> _messageHandlers;
-		private Dictionary<Type, object> _serviceLocator = new Dictionary<Type, object>();
+		private readonly List<IMessageHandler> _messageHandlers = new List<IMessageHandler>();
+		private readonly Dictionary<Type, object> _serviceLocator = new Dictionary<Type, object>();
 		private IServiceProvider _serviceProvider;
 		public MicroservicesHost(IOptions<MicroservicesOptions> options, IServiceProvider serviceProvider)
 		{
 			_options = options.Value;
+			_serviceProvider = serviceProvider;
 		}
 
 		public async Task<IMessage> Handle(IMessage message)
@@ -24,7 +25,7 @@ namespace Microservices.Core
 
 			var handler = FindHandler(message);
 
-			return await handler.Handle(message);
+			return await handler.Handle(this, message);
 		}
 
 		public void AddDependency<T>(T implementation)
@@ -56,6 +57,14 @@ namespace Microservices.Core
 		public void Unregister(string name)
 		{
 			throw new NotImplementedException();
+		}
+
+		public async Task Initialize()
+		{
+			foreach (var eh in _messageHandlers.Where(eh => eh.CatchPattern.EndsWith(".initialize")))
+			{
+				await eh.Handle(this, new EmptyMessage(eh.CatchPattern));
+			}
 		}
 	}
 }

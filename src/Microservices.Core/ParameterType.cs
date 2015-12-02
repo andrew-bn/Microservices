@@ -13,6 +13,7 @@ namespace Microservices.Core.Messaging
 		Object,
 		Array,
 		Boolean,
+		Void,
 	}
 
 }

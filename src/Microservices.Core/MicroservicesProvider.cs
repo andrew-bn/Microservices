@@ -2,34 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microservices.Core.Messaging;
 using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Microservices.Core
 {
-	public class MicroserviceBasedMessageHandler : IMessageHandler
-	{
-		private object _instance;
-		private MethodInfo _method;
-		public MicroserviceBasedMessageHandler(object instance, MethodInfo method)
-		{
-			_instance = instance;
-			_method = method;
-			CatchPattern = $"{method.DeclaringType.Namespace.ToLower()}.{method.DeclaringType.Name.ToLower()}.{method.Name.ToLower()}";
-        }
-		public string CatchPattern { get; set; }
-		public IMessageSchema Message { get; set; }
-
-		public IMessageSchema Response { get; set; }
-
-		public Task<IMessage> Handle(IMessage message)
-		{
-			//message.Parameters.Select(p=>p.)
-			//_method.Invoke(_instance);
-			throw new NotImplementedException();
-		}
-	}
 	public class MicroservicesProvider : IMessageHandlersProvider
 	{
 		private readonly ILibraryManager _libraryManager;
@@ -57,8 +35,7 @@ namespace Microservices.Core
 					if (asm.IsDynamic) continue;
 					foreach(var t in asm.GetTypes())
 					{
-						if (t.Namespace != null && (t.Namespace.Contains(".Microservices.") || t.Namespace.EndsWith(".Microservices"))
-								&& t.Name.EndsWith("Microservice"))
+						if (t.Namespace != null && t.Name.EndsWith("Microservice"))
 							result.AddRange(CreateMessageHandlers(t, _messageHanldersHost));
 					}
 				}
@@ -73,10 +50,21 @@ namespace Microservices.Core
 		{
 			var handlers = new List<IMessageHandler>();
 			var microserviceInstance = Activator.CreateInstance(type);
-
-			foreach (var m in type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-				handlers.Add(new MicroserviceBasedMessageHandler(microserviceInstance, m));
+			var microserviceName = type.Name.ToLower();
+			microserviceName = microserviceName.Substring(0, microserviceName.IndexOf("microservice", StringComparison.Ordinal));
 			
+			foreach (var m in type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+			{
+
+				if (m.ReturnType == typeof(Task) || 
+					(m.ReturnType.GetGenericArguments().Length > 0 && m.ReturnType.GetGenericTypeDefinition() == typeof(Task<>)) &&
+					m.GetCustomAttribute<CompilerGeneratedAttribute>() == null)
+				{
+					var catchPattern = $"{microserviceName}.{m.Name}".ToLower();
+
+					handlers.Add(new MicroserviceBasedMessageHandler(catchPattern, microserviceInstance, m));
+				}
+			}
 			return handlers;
 		}
 

@@ -28,7 +28,6 @@ namespace Microservices.AspNet5Source
 				JsonSerializer.Create().Serialize(sw, ((ObjectBasedMessage)result).UnderlyingObject);
 				await context.HttpContext.Response.WriteAsync(sw.ToString());
 			}
-
 		}
 
 		public VirtualPathData GetVirtualPath(VirtualPathContext context)

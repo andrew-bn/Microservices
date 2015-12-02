@@ -9,6 +9,6 @@ namespace Microservices.Core
 		string CatchPattern { get; }
 		IMessageSchema Message { get; }
 		IMessageSchema Response { get; }
-		Task<IMessage> Handle(IMessage message);
+		Task<IMessage> Handle(IMessageHandlersHost host, IMessage message);
 	}
 }

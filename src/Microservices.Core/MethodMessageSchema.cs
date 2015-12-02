@@ -18,7 +18,7 @@ namespace Microservices.Core.Messaging
 		}
 
 		public string Name { get; }
-		public ParameterType Type { get { return ParameterType.Object; } }
+		public ParameterType Type => ParameterType.Object;
 		public IEnumerable<IMessageSchema> Parameters { get; }
 	}
 }
