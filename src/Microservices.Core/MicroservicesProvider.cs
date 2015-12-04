@@ -48,6 +48,7 @@ namespace Microservices.Core
 
 		protected virtual IEnumerable<IMessageHandler> CreateMessageHandlers(Type type, IMessageHandlersHost microservicesHost)
 		{
+			
 			var handlers = new List<IMessageHandler>();
 			var microserviceInstance = Activator.CreateInstance(type);
 			var microserviceName = type.Name.ToLower();
@@ -55,10 +56,7 @@ namespace Microservices.Core
 			
 			foreach (var m in type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
 			{
-
-				if (m.ReturnType == typeof(Task) || 
-					(m.ReturnType.GetGenericArguments().Length > 0 && m.ReturnType.GetGenericTypeDefinition() == typeof(Task<>)) &&
-					m.GetCustomAttribute<CompilerGeneratedAttribute>() == null)
+				if (m.GetCustomAttribute<CompilerGeneratedAttribute>() == null)
 				{
 					var catchPattern = $"{microserviceName}.{m.Name}".ToLower();
 

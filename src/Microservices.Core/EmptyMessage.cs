@@ -24,5 +24,10 @@ namespace Microservices.Core
 	    {
 		    return null;
 	    }
-    }
+
+		public string ToResponseString()
+		{
+			return string.Empty;
+		}
+	}
 }

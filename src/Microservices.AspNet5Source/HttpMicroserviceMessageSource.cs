@@ -21,13 +21,7 @@ namespace Microservices.AspNet5Source
 			await message.Prepare();
 
 			var result = await Handle(message);
-
-			if (result is ObjectBasedMessage)
-			{
-				var sw = new StringWriter();
-				JsonSerializer.Create().Serialize(sw, ((ObjectBasedMessage)result).UnderlyingObject);
-				await context.HttpContext.Response.WriteAsync(sw.ToString());
-			}
+			await context.HttpContext.Response.WriteAsync(result.ToResponseString());
 		}
 
 		public VirtualPathData GetVirtualPath(VirtualPathContext context)

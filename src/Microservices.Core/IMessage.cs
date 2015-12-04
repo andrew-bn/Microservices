@@ -8,5 +8,6 @@ namespace Microservices.Core
 		IMessage this[string parameterName] { get; }
 		object Value { get; }
 		object ValueAs(Type type);
+		string ToResponseString();
 	}
 }

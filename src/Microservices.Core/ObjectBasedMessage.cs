@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Microservices.Core.Messaging
 {
@@ -32,6 +34,15 @@ namespace Microservices.Core.Messaging
 		public object ValueAs(Type type)
 		{
 			throw new NotImplementedException();
+		}
+
+		public string ToResponseString()
+		{
+			using (var sw = new StringWriter())
+			{
+				JsonSerializer.Create().Serialize(sw, UnderlyingObject);
+				return sw.ToString();
+			}
 		}
 	}
 }

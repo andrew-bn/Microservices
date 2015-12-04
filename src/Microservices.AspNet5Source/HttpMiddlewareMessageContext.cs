@@ -109,5 +109,10 @@ namespace Microservices.AspNet5Source
 		{
 			return _jsonRequest.ToObject(type);
 		}
+
+		public string ToResponseString()
+		{
+			return _jsonRequest.ToString();
+		}
 	}
 }

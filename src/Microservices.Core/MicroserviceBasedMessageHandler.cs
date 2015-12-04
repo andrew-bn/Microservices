@@ -29,9 +29,14 @@ namespace Microservices.Core
 		public async Task<IMessage> Handle(IMessageHandlersHost host, IMessage message)
 		{
 			var parameters = CollectParameters(host, message);
-			var task = (Task)_method.Invoke(_instance, parameters.ToArray());
-			await task;
-			var result = task.GetType().GetProperty("Result").GetValue(task);
+			object result = _method.Invoke(_instance, parameters.ToArray());
+			if (typeof(Type).IsAssignableFrom(_method.ReturnType))
+			{
+				await ((Task)result);
+				result = result.GetType().GetProperty("Result").GetValue(result);
+			}
+			if (typeof(IMessage).IsAssignableFrom(result.GetType()))
+				return (IMessage)result;
 			return new ObjectBasedMessage(result.GetType(), string.Empty, result);
 		}
 
