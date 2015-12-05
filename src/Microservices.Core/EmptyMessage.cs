@@ -20,7 +20,12 @@ namespace Microservices.Core
 		
 	    public object Value => null;
 
-	    public object ValueAs(Type type)
+		public ICookies Cookies
+		{
+			get { return null; }
+		}
+
+		public object ValueAs(Type type)
 	    {
 		    return null;
 	    }

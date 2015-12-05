@@ -22,6 +22,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.RabbitMQEvent
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.LiquidEngine", "src\Microservices.LiquidEngine\Microservices.LiquidEngine.xproj", "{CC074181-3E2D-4CBA-8880-E3D3A56D0563}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microservices.ContentManager", "src\Microservices.ContentManager\Microservices.ContentManager.xproj", "{7D7AAD2D-87B1-4A58-9A9A-A5684EC82ECD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{CC074181-3E2D-4CBA-8880-E3D3A56D0563}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC074181-3E2D-4CBA-8880-E3D3A56D0563}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC074181-3E2D-4CBA-8880-E3D3A56D0563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D7AAD2D-87B1-4A58-9A9A-A5684EC82ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D7AAD2D-87B1-4A58-9A9A-A5684EC82ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D7AAD2D-87B1-4A58-9A9A-A5684EC82ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D7AAD2D-87B1-4A58-9A9A-A5684EC82ECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

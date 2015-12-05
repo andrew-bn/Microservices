@@ -10,15 +10,18 @@ namespace Microservices.Core
 	{
 
 		public readonly string Message;
-		public HtmlMessage(string message)
+		public HtmlMessage(string message, ICookies cookies = null)
 		{
 			Message = message;
+			Cookies = cookies;
 		}
 
 		public IMessage this[string parameterName]
 		{
 			get { throw new ArgumentException("Message has no parameters"); }
 		}
+
+		public ICookies Cookies { get; }
 
 		public string Name => string.Empty;
 

@@ -1,10 +1,11 @@
 {
   "version": "1.0.0-*",
-  "description": "Microservices.LiquidEngine Class Library",
-  "authors": [ "user" ],
+  "description": "Microservices.ContentManager Class Library",
+  "authors": [ "AB" ],
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
+
   "frameworks": {
     "net451": { },
     "dnx451": { },
@@ -18,10 +19,5 @@
         "System.Threading": "4.0.11-beta-23409"
       }
     }
-  },
-  "dependencies": {
-    "DotLiquid.Experimental": "1.0.0-beta-4",
-    "Microservices.ContentManager": "1.0.0-*",
-    "Microservices.Core": "1.0.0-*"
   }
 }

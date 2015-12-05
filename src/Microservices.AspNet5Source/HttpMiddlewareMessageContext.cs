@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,7 +15,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Microservices.AspNet5Source
 {
-
 	public class HttpJsonMessage : IMessage
 	{
 		private const string MicroserviceNameKey = "microservice";
@@ -32,13 +32,16 @@ namespace Microservices.AspNet5Source
 			var microservice = routeContext.RouteData.Values[MicroserviceNameKey]?.ToString() ?? DefaultMicroserviceName;
 			var messageName = routeContext.RouteData.Values[MicroserviceMethodNameKey]?.ToString() ?? DefaultMicroserviceMethodName;
 			Name = microservice + "." + messageName;
+			Cookies = new HttpBasedCookies(routeContext.HttpContext.Request.Cookies, routeContext.HttpContext.Response.Cookies);
 		}
+
 		public HttpJsonMessage(string name, JToken jsonRequest)
 		{
 			Name = name;
 			_jsonRequest = jsonRequest;
 		}
 		public string Name { get; }
+		public ICookies Cookies { get; set; }
 
 		public ParameterType Type
 		{
@@ -75,6 +78,8 @@ namespace Microservices.AspNet5Source
 			}
 
 		}
+
+	
 
 		public IMessage this[string parameterName]
 		{

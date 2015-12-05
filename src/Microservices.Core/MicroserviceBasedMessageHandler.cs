@@ -37,7 +37,7 @@ namespace Microservices.Core
 			}
 			if (typeof(IMessage).IsAssignableFrom(result.GetType()))
 				return (IMessage)result;
-			return new ObjectBasedMessage(result.GetType(), string.Empty, result);
+			return new ObjectBasedMessage(result.GetType(), string.Empty, result, message.Cookies);
 		}
 
 		private List<object> CollectParameters(IMessageHandlersHost host, IMessage message)
@@ -56,6 +56,11 @@ namespace Microservices.Core
 				if (srv != null)
 				{
 					value = srv;
+					skipped++;
+				}
+				else if (p.ParameterType == typeof (ICookies))
+				{
+					value = message.Cookies;
 					skipped++;
 				}
 				else if (p.ParameterType == typeof(IMessageHandlersHost))

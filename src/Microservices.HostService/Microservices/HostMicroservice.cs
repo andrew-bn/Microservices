@@ -12,10 +12,11 @@ namespace Microservices.HostService.Microservices
 {
 	public class HostMicroservice
 	{
-		public HtmlMessage Index(IMessageHandlersHost host)
+		public HtmlMessage Index(IMessageHandlersHost host, ICookies cookies)
 		{
 			var handlers = Handlers(host);
-			return this.Content("index",new { host, handlers });
+			cookies.Append("mycookie","myvalue");
+			return this.Liquid("Index",new { host, handlers });
 		}
 
 		public MessageHandlerInfo[] Handlers(IMessageHandlersHost host)

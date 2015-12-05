@@ -17,6 +17,8 @@ namespace Microservices.Core.Messaging
 			}
 		}
 
+		public ICookies Cookies { get; }
+
 		public IMessage this[string parameterName]
 		{
 			get
@@ -25,10 +27,11 @@ namespace Microservices.Core.Messaging
 			}
 		}
 
-		public ObjectBasedMessage(Type type, string name, object message)
+		public ObjectBasedMessage(Type type, string name, object message, ICookies cookies)
 			: base(name, type)
 		{
 			UnderlyingObject = message;
+			Cookies = cookies;
 		}
 
 		public object ValueAs(Type type)
