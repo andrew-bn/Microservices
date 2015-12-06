@@ -15,7 +15,7 @@ namespace Microservices.Core
 		private readonly IServiceProvider _serviceProvider;
 
 		public IEnumerable<IMessageHandler> MessageHandlers => _messageHandlers;
-
+		 
 		public MicroservicesHost(IOptions<MicroservicesOptions> options, IServiceProvider serviceProvider)
 		{
 			_options = options.Value;
