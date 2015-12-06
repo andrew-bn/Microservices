@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core
 {
-    public interface IMessageHandlersHost: IMessageHandler
+    public interface IMessageHandlersHost : IMessageHandler
 	{
 		string HostName { get; }
 		string Version { get; }
-	    Task Initialize();
 		void AddDependency<T>(T implementation);
 		object ResolveDependency(Type type);
+		void Register(IMessageHandler handler);
+		Task<IMessage> Handle(IMessage message);
 	}
 }

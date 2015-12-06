@@ -7,36 +7,37 @@ using Microsoft.Extensions.OptionsModel;
 
 namespace Microservices.Core
 {
-	public class MicroservicesHost : IMessageHandlersHost
+	public class MicroservicesHost : IMessageHandler, IMessageHandlersHost
 	{
+		public string HostName => "Microhost";
+		public string Name => string.Empty;
+		public string Version => "1.0.0";
+		public IMessageSchema Message => null;
+		public IMessageSchema Response => null;
+
 		private readonly MicroservicesOptions _options;
-		private readonly List<IMessageHandler> _messageHandlers = new List<IMessageHandler>();
 		private readonly Dictionary<Type, object> _serviceLocator = new Dictionary<Type, object>();
 		private readonly IServiceProvider _serviceProvider;
-
-		public IEnumerable<IMessageHandler> MessageHandlers => _messageHandlers;
-		 
+		private HandlerNode _handlersTree;
 		public MicroservicesHost(IOptions<MicroservicesOptions> options, IServiceProvider serviceProvider)
 		{
 			_options = options.Value;
 			_serviceProvider = serviceProvider;
-			Name = nameof(MicroservicesHost);
-			Version = "1.0.0";
+			_handlersTree = new HandlerNode(null, this);
 		}
 
 		public Task<IMessage> Handle(IMessage message)
 		{
-			return Handle(this,message);
-		}
-
-		public Task<IMessage> Handle(IMessageHandlersHost host, IMessage message)
-		{
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
+			var sequence = _handlersTree.CollectHandlersSequence(message);
 
-			var handler = FindHandler(message);
+			return ((IMessageHandler)this).Handle(this, message, sequence);
+		}
 
-			return handler.Handle(this, message);
+		Task<IMessage> IMessageHandler.Handle(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence)
+		{
+			return sequence.Next(this, message).Handle(host, message, sequence);
 		}
 
 		public void AddDependency<T>(T implementation)
@@ -52,67 +53,10 @@ namespace Microservices.Core
 			return srv;
 		}
 
-		private IMessageHandler FindHandler(IMessage message)
-		{
-			var handler = _messageHandlers.FirstOrDefault(mh => mh.Name == message.Name);
-			if (handler == null)
-				throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, message);
-			return handler;
-		}
-
 		public void Register(IMessageHandler handler)
 		{
-			_messageHandlers.Add(handler);
+			_handlersTree.Register(handler);
 		}
 
-		public void Unregister(string name)
-		{
-			throw new NotImplementedException();
-		}
-
-		public string Name { get; }
-		public string Version { get; }
-
-		public string HostName
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public IMessageSchema Message
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public IMessageSchema Response
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public Dictionary<string, IMessageHandler> SubHandlers
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public async Task Initialize()
-		{
-			foreach (var eh in _messageHandlers.Where(eh => eh.Name.EndsWith(".initialize")))
-			{
-				await eh.Handle(this, new EmptyMessage(eh.Name));
-			}
-		}
-
-		
 	}
 }

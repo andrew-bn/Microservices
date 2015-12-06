@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,8 +10,12 @@ namespace Microservices.Core
 {
 	public class MicroserviceBasedMessageHandler : IMessageHandler
 	{
+		public IMessageSchema Message { get; }
+		public IMessageSchema Response { get; }
+		public string Name { get; }
 		private readonly object _instance;
 		private readonly MethodInfo _method;
+
 		public MicroserviceBasedMessageHandler(string name, object instance, MethodInfo method)
 		{
 			_instance = instance;
@@ -21,17 +26,11 @@ namespace Microservices.Core
 				Response = new TypeBasedSchema(string.Empty, method.ReturnType.GetGenericArguments()[0]);
 			else Response = new TypeBasedSchema(string.Empty, typeof(void));
 
-			SubHandlers = new Dictionary<string, IMessageHandler>();
 		}
 
-		public string Name { get; }
-		public IMessageSchema Message { get; }
-
-		public IMessageSchema Response { get; }
-
-		public async Task<IMessage> Handle(IMessageHandlersHost host, IMessage message)
+		public async Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence)
 		{
-			var parameters = CollectParameters(host, message);
+			var parameters = CollectParameters(host, message, sequence);
 			object result = _method.Invoke(_instance, parameters.ToArray());
 			if (typeof(Type).IsAssignableFrom(_method.ReturnType))
 			{
@@ -43,9 +42,7 @@ namespace Microservices.Core
 			return new ObjectBasedMessage(result.GetType(), string.Empty, result, message.Cookies);
 		}
 
-		public Dictionary<string, IMessageHandler> SubHandlers { get; }
-
-		private List<object> CollectParameters(IMessageHandlersHost host, IMessage message)
+		private List<object> CollectParameters(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence)
 		{
 			var parameters = new List<object>();
 			var skipped = 0;
@@ -63,7 +60,7 @@ namespace Microservices.Core
 					value = srv;
 					skipped++;
 				}
-				else if (p.ParameterType == typeof (ICookies))
+				else if (p.ParameterType == typeof(ICookies))
 				{
 					value = message.Cookies;
 					skipped++;
@@ -73,9 +70,19 @@ namespace Microservices.Core
 					value = host;
 					skipped++;
 				}
-				else if (p.ParameterType == typeof (IMessage))
+				else if (p.ParameterType == typeof(IMessage))
 				{
 					value = message;
+					skipped++;
+				}
+				else if (p.ParameterType == typeof(IHandlersSequence))
+				{
+					value = sequence;
+					skipped++;
+				}
+				else if (p.ParameterType == typeof(IMessageHandler))
+				{
+					value = this;
 					skipped++;
 				}
 				else
@@ -88,16 +95,6 @@ namespace Microservices.Core
 				parameters.Add(value);
 			}
 			return parameters;
-		}
-
-		public void Register(IMessageHandler handler)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Unregister(string name)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

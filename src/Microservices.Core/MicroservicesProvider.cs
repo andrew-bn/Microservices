@@ -43,7 +43,6 @@ namespace Microservices.Core
 
 			foreach (var mh in result)
 				_messageHanldersHost.Register(mh);
-
 		}
 
 		protected virtual IEnumerable<IMessageHandler> CreateMessageHandlers(Type type, IMessageHandlersHost microservicesHost)
