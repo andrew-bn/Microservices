@@ -9,19 +9,22 @@ namespace Microservices.Core
 {
 	public class MicroserviceBasedMessageHandler : IMessageHandler
 	{
-		private object _instance;
-		private MethodInfo _method;
-		public MicroserviceBasedMessageHandler(string catchPattern, object instance, MethodInfo method)
+		private readonly object _instance;
+		private readonly MethodInfo _method;
+		public MicroserviceBasedMessageHandler(string name, object instance, MethodInfo method)
 		{
 			_instance = instance;
 			_method = method;
-			CatchPattern = catchPattern;
+			Name = name;
 			Message = new MethodMessageSchema(string.Empty, method);
 			if (method.ReturnType.GetGenericArguments().Length > 0 && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
 				Response = new TypeBasedSchema(string.Empty, method.ReturnType.GetGenericArguments()[0]);
 			else Response = new TypeBasedSchema(string.Empty, typeof(void));
+
+			SubHandlers = new Dictionary<string, IMessageHandler>();
 		}
-		public string CatchPattern { get; }
+
+		public string Name { get; }
 		public IMessageSchema Message { get; }
 
 		public IMessageSchema Response { get; }
@@ -39,6 +42,8 @@ namespace Microservices.Core
 				return (IMessage)result;
 			return new ObjectBasedMessage(result.GetType(), string.Empty, result, message.Cookies);
 		}
+
+		public Dictionary<string, IMessageHandler> SubHandlers { get; }
 
 		private List<object> CollectParameters(IMessageHandlersHost host, IMessage message)
 		{
@@ -83,6 +88,16 @@ namespace Microservices.Core
 				parameters.Add(value);
 			}
 			return parameters;
+		}
+
+		public void Register(IMessageHandler handler)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Unregister(string name)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

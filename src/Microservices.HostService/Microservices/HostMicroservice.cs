@@ -21,7 +21,7 @@ namespace Microservices.HostService.Microservices
 
 		public MessageHandlerInfo[] Handlers(IMessageHandlersHost host)
 		{
-			return host.MessageHandlers.Select(h => new MessageHandlerInfo() {CatchPattern = h.CatchPattern}).ToArray();
+			return host.MessageHandlers.Select(h => new MessageHandlerInfo() {CatchPattern = h.Name}).ToArray();
 		}
 	}
 }

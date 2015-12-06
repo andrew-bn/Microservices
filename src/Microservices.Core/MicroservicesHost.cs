@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microservices.Core.Messaging;
 using Microsoft.Extensions.OptionsModel;
 
 namespace Microservices.Core
@@ -23,14 +24,19 @@ namespace Microservices.Core
 			Version = "1.0.0";
 		}
 
-		public async Task<IMessage> Handle(IMessage message)
+		public Task<IMessage> Handle(IMessage message)
+		{
+			return Handle(this,message);
+		}
+
+		public Task<IMessage> Handle(IMessageHandlersHost host, IMessage message)
 		{
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
 
 			var handler = FindHandler(message);
 
-			return await handler.Handle(this, message);
+			return handler.Handle(this, message);
 		}
 
 		public void AddDependency<T>(T implementation)
@@ -48,7 +54,7 @@ namespace Microservices.Core
 
 		private IMessageHandler FindHandler(IMessage message)
 		{
-			var handler = _messageHandlers.FirstOrDefault(mh => mh.CatchPattern == message.Name);
+			var handler = _messageHandlers.FirstOrDefault(mh => mh.Name == message.Name);
 			if (handler == null)
 				throw new MicroservicesException(MicroservicesError.MicroserviceNotFound, message);
 			return handler;
@@ -67,13 +73,46 @@ namespace Microservices.Core
 		public string Name { get; }
 		public string Version { get; }
 
-		
-		public async Task Initialize()
+		public string HostName
 		{
-			foreach (var eh in _messageHandlers.Where(eh => eh.CatchPattern.EndsWith(".initialize")))
+			get
 			{
-				await eh.Handle(this, new EmptyMessage(eh.CatchPattern));
+				throw new NotImplementedException();
 			}
 		}
+
+		public IMessageSchema Message
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public IMessageSchema Response
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Dictionary<string, IMessageHandler> SubHandlers
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public async Task Initialize()
+		{
+			foreach (var eh in _messageHandlers.Where(eh => eh.Name.EndsWith(".initialize")))
+			{
+				await eh.Handle(this, new EmptyMessage(eh.Name));
+			}
+		}
+
+		
 	}
 }

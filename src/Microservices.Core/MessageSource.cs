@@ -17,7 +17,7 @@ namespace Microservices.Core
 
         protected Task<IMessage> Handle(IMessage message)
         {
-            return Host.Handle(message);
+            return Host.Handle(Host, message);
         }
     }
 }
