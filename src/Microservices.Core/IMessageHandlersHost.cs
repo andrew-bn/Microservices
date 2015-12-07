@@ -10,7 +10,7 @@ namespace Microservices.Core
 		string Version { get; }
 		void AddDependency<T>(T implementation);
 		object ResolveDependency(Type type);
-		void Register(IMessageHandler handler);
+		void Register(string messageName, IMessageHandler handler);
 		Task<IMessage> Handle(IMessage message);
 	}
 }

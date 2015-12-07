@@ -13,29 +13,13 @@ namespace Microservices.Core
 	}
     public class HandlerNode
 	{
-		public class EmptyMessageHandler : IMessageHandler
-		{
-			public EmptyMessageHandler(string name)
-			{
-				Name = name;
-			}
-
-			public IMessageSchema Message { get; }
-			public string Name { get; }
-			public IMessageSchema Response { get; }
-
-			public Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence)
-			{
-				return sequence.Next(this, message).Handle(host,message, sequence);
-			}
-		}
-
-		public HandlerNode(HandlerNode parent, IMessageHandler handler)
+		public HandlerNode(HandlerNode parent, string messageName, IMessageHandler handler)
 		{
 			Handler = handler;
 			Parent = parent;
+			MessageName = messageName;
 		}
-
+		public string MessageName { get; }
 		public HandlerNode Parent { get; }
 		public IMessageHandler Handler { get; }
 		ConcurrentDictionary<string, HandlerNode> _tree = new ConcurrentDictionary<string, HandlerNode>();
@@ -45,9 +29,9 @@ namespace Microservices.Core
 			throw new NotImplementedException();
 		}
 
-		public void Register(IMessageHandler handler)
+		public void Register(string messageName, IMessageHandler handler)
 		{
-			var name = handler.Name.Remove(0, Handler.Name.Length).Trim('.');
+			var name = messageName.Remove(0, MessageName.Length).Trim('.');
 
 			if (string.IsNullOrEmpty(name))
 				return;
@@ -56,16 +40,16 @@ namespace Microservices.Core
 			
 			if (parts.Length == 1)
 			{
-				_tree.TryAdd(parts[0], new HandlerNode(this,handler));
+				_tree.TryAdd(parts[0], new HandlerNode(this, messageName,handler));
 			}
 			else
 			{
-				var node = string.IsNullOrEmpty(Handler.Name)
-							? new HandlerNode(this, new EmptyMessageHandler(parts[0]))
-							: new HandlerNode(this, new EmptyMessageHandler(Handler.Name + "." + parts[0]));
+				var node = string.IsNullOrEmpty(MessageName)
+							? new HandlerNode(this, parts[0], null)
+							: new HandlerNode(this, MessageName + "." + parts[0], null);
 
 				_tree.TryAdd(parts[0], node);
-				node.Register(handler);
+				node.Register(messageName, handler);
 			}
 		}
     }

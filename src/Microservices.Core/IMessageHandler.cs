@@ -6,7 +6,7 @@ namespace Microservices.Core
 {
 	public interface IMessageHandler
 	{
-		string Name { get; }
+		//string Name { get; }
 		IMessageSchema Message { get; }
 		IMessageSchema Response { get; }
 		Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence);

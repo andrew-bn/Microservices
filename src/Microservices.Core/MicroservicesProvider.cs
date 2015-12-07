@@ -22,7 +22,6 @@ namespace Microservices.Core
 
 		public virtual void ProvideMessageHandlers()
 		{
-			var result = new List<IMessageHandler>();
 			foreach (var l in _libraryManager.GetLibraries()
 								.Where(lbl => !lbl.Name.StartsWith("Microsoft"))
 							.Where(lbl => !lbl.Name.StartsWith("System")))
@@ -36,18 +35,14 @@ namespace Microservices.Core
 					foreach(var t in asm.GetTypes())
 					{
 						if (t.Namespace != null && t.Name.EndsWith("Microservice"))
-							result.AddRange(CreateMessageHandlers(t, _messageHanldersHost));
+							RegisterMessageHandlers(t, _messageHanldersHost);
 					}
 				}
 			}
-
-			foreach (var mh in result)
-				_messageHanldersHost.Register(mh);
 		}
 
-		protected virtual IEnumerable<IMessageHandler> CreateMessageHandlers(Type type, IMessageHandlersHost microservicesHost)
+		protected virtual void RegisterMessageHandlers(Type type, IMessageHandlersHost microservicesHost)
 		{
-			
 			var handlers = new List<IMessageHandler>();
 			var microserviceInstance = Activator.CreateInstance(type);
 			var microserviceName = type.Name.ToLower();
@@ -58,11 +53,10 @@ namespace Microservices.Core
 				if (m.GetCustomAttribute<CompilerGeneratedAttribute>() == null)
 				{
 					var catchPattern = $"{microserviceName}.{m.Name}".ToLower();
-
-					handlers.Add(new MicroserviceBasedMessageHandler(catchPattern, microserviceInstance, m));
+					var handler = new MicroserviceBasedMessageHandler(catchPattern, microserviceInstance, m);
+					microservicesHost.Register(catchPattern, handler);
 				}
 			}
-			return handlers;
 		}
 
 		protected virtual string ExtractMicroserviceName(Type type)

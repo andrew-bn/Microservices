@@ -10,7 +10,6 @@ namespace Microservices.Core
 	public class MicroservicesHost : IMessageHandler, IMessageHandlersHost
 	{
 		public string HostName => "Microhost";
-		public string Name => string.Empty;
 		public string Version => "1.0.0";
 		public IMessageSchema Message => null;
 		public IMessageSchema Response => null;
@@ -23,7 +22,7 @@ namespace Microservices.Core
 		{
 			_options = options.Value;
 			_serviceProvider = serviceProvider;
-			_handlersTree = new HandlerNode(null, this);
+			_handlersTree = new HandlerNode(null, string.Empty, this);
 		}
 
 		public Task<IMessage> Handle(IMessage message)
@@ -53,9 +52,9 @@ namespace Microservices.Core
 			return srv;
 		}
 
-		public void Register(IMessageHandler handler)
+		public void Register(string messageName, IMessageHandler handler)
 		{
-			_handlersTree.Register(handler);
+			_handlersTree.Register(messageName, handler);
 		}
 
 	}
