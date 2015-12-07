@@ -22,6 +22,7 @@ namespace Microservices.Core
 	{
 		string MessageName { get; }
 		IMessageHandler Handler { get; }
+		bool HasSubHandlers { get; }
 		IEnumerable<IHandlersTreeNode> SubHandlers { get; }
 	}
 	public class HandlerNode: IHandlersTreeNode
@@ -35,8 +36,9 @@ namespace Microservices.Core
 		public string MessageName { get; }
 		public HandlerNode Parent { get; }
 		public IMessageHandler Handler { get; }
+		public bool HasSubHandlers => SubHandlers != null && SubHandlers.Any();
 		public IEnumerable<IHandlersTreeNode> SubHandlers => _tree.Values;
-		ConcurrentDictionary<string, HandlerNode> _tree = new ConcurrentDictionary<string, HandlerNode>();
+		private readonly ConcurrentDictionary<string, HandlerNode> _tree = new ConcurrentDictionary<string, HandlerNode>();
 
 
 		public IHandlersQueue CollectHandlersQueue(string msgName, IMessage message)
@@ -85,8 +87,7 @@ namespace Microservices.Core
 							? new HandlerNode(this, parts[0], null)
 							: new HandlerNode(this, MessageName + "." + parts[0], null);
 
-				_tree.TryAdd(parts[0], node);
-				node.Register(messageName, handler);
+				_tree.GetOrAdd(parts[0], node).Register(messageName, handler);
 			}
 		}
     }

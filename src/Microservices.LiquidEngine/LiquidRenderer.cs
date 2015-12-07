@@ -17,6 +17,7 @@ namespace Microservices.LiquidEngine
 		static LiquidRenderer()
 		{
 			Template.AllowAllTypes = true;
+			Template.RegisterTag<While>("while");
 		}
 		
 		public static HtmlMessage Liquid<T>(this T instance, string resourceName, object model)

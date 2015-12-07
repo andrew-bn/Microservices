@@ -22,6 +22,7 @@
   "dependencies": {
     "DotLiquid.Experimental": "1.0.0-beta-4",
     "Microservices.ContentManager": "1.0.0-*",
-    "Microservices.Core": "1.0.0-*"
+    "Microservices.Core": "1.0.0-*",
+    "System.Text.RegularExpressions": "4.0.11-beta-23516"
   }
 }
