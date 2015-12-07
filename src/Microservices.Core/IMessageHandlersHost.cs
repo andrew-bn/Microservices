@@ -6,6 +6,7 @@ namespace Microservices.Core
 {
     public interface IMessageHandlersHost : IMessageHandler
 	{
+		IHandlersTreeNode HandlersTree { get; }
 		string HostName { get; }
 		string Version { get; }
 		void AddDependency<T>(T implementation);

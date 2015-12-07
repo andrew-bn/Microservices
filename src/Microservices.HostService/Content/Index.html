@@ -5,12 +5,17 @@
     <title>{{model.host.Name}}</title>
 </head>
 <body>
-    <b>{{model.host.Name}}:{{model.host.Version}}</b><br/>
+    <b>{{model.host.HostName}}:{{model.host.Version}}</b><br />
     <hr />
     <b>Handlers:</b>
     <ul>
-        {% for item in model.handlers -%}
-        <li>{{ item.Name }}</li>
+        {% for item in model.handlers.SubHandlers -%}
+        <li>{{ item.MessageName }}</li>
+        <ul>
+            {% for item2 in item.SubHandlers -%}
+            <li>{{ item2.MessageName }}</li>
+            {% endfor -%}
+        </ul>
         {% endfor -%}
     </ul>
 </body>

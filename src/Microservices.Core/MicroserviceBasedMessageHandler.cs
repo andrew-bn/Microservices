@@ -28,7 +28,7 @@ namespace Microservices.Core
 
 		}
 
-		public async Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence)
+		public async Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersQueue sequence)
 		{
 			var parameters = CollectParameters(host, message, sequence);
 			object result = _method.Invoke(_instance, parameters.ToArray());
@@ -42,7 +42,7 @@ namespace Microservices.Core
 			return new ObjectBasedMessage(result.GetType(), string.Empty, result, message.Cookies);
 		}
 
-		private List<object> CollectParameters(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence)
+		private List<object> CollectParameters(IMessageHandlersHost host, IMessage message, IHandlersQueue sequence)
 		{
 			var parameters = new List<object>();
 			var skipped = 0;
@@ -75,7 +75,7 @@ namespace Microservices.Core
 					value = message;
 					skipped++;
 				}
-				else if (p.ParameterType == typeof(IHandlersSequence))
+				else if (p.ParameterType == typeof(IHandlersQueue))
 				{
 					value = sequence;
 					skipped++;

@@ -52,9 +52,9 @@ namespace Microservices.Core
 			{
 				if (m.GetCustomAttribute<CompilerGeneratedAttribute>() == null)
 				{
-					var catchPattern = $"{microserviceName}.{m.Name}".ToLower();
-					var handler = new MicroserviceBasedMessageHandler(catchPattern, microserviceInstance, m);
-					microservicesHost.Register(catchPattern, handler);
+					var name = $"{microserviceName}.{m.Name}".ToLower();
+					var handler = new MicroserviceBasedMessageHandler(name, microserviceInstance, m);
+					microservicesHost.Register(name, handler);
 				}
 			}
 		}

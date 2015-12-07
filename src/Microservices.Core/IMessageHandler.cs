@@ -9,6 +9,6 @@ namespace Microservices.Core
 		//string Name { get; }
 		IMessageSchema Message { get; }
 		IMessageSchema Response { get; }
-		Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence);
+		Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersQueue sequence);
 	}
 }

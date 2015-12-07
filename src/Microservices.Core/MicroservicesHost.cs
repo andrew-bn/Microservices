@@ -17,6 +17,7 @@ namespace Microservices.Core
 		private readonly MicroservicesOptions _options;
 		private readonly Dictionary<Type, object> _serviceLocator = new Dictionary<Type, object>();
 		private readonly IServiceProvider _serviceProvider;
+		public IHandlersTreeNode HandlersTree => _handlersTree;
 		private HandlerNode _handlersTree;
 		public MicroservicesHost(IOptions<MicroservicesOptions> options, IServiceProvider serviceProvider)
 		{
@@ -26,17 +27,19 @@ namespace Microservices.Core
 		}
 
 		public Task<IMessage> Handle(IMessage message)
+
 		{
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
-			var sequence = _handlersTree.CollectHandlersSequence(message);
 
-			return ((IMessageHandler)this).Handle(this, message, sequence);
+			var sequence = _handlersTree.CollectHandlersQueue(_handlersTree.MessageName, message);
+
+			return sequence.Next().Handle(this, message, sequence);
 		}
 
-		Task<IMessage> IMessageHandler.Handle(IMessageHandlersHost host, IMessage message, IHandlersSequence sequence)
+		Task<IMessage> IMessageHandler.Handle(IMessageHandlersHost host, IMessage message, IHandlersQueue sequence)
 		{
-			return sequence.Next(this, message).Handle(host, message, sequence);
+			return sequence.Next().Handle(host, message, sequence);
 		}
 
 		public void AddDependency<T>(T implementation)
