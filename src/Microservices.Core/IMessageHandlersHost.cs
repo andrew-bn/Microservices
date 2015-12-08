@@ -13,5 +13,6 @@ namespace Microservices.Core
 		object ResolveDependency(Type type);
 		void Register(string messageName, IMessageHandler handler);
 		Task<IMessage> Handle(IMessage message);
+	    DynamicProxy CreateDynamicProxy();
 	}
 }

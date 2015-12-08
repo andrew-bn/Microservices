@@ -7,7 +7,7 @@ using Microsoft.Extensions.OptionsModel;
 
 namespace Microservices.Core
 {
-	public class MicroservicesHost : IMessageHandler, IMessageHandlersHost
+	public class MicroservicesHost : IMessageHandlersHost
 	{
 		public string HostName => "Microhost";
 		public string Version => "1.0.0";
@@ -35,6 +35,11 @@ namespace Microservices.Core
 			var sequence = _handlersTree.CollectHandlersQueue(_handlersTree.MessageName, message);
 
 			return sequence.Next().Handle(this, message, sequence);
+		}
+
+		public DynamicProxy CreateDynamicProxy()
+		{
+			return new DynamicProxy(this);
 		}
 
 		Task<IMessage> IMessageHandler.Handle(IMessageHandlersHost host, IMessage message, IHandlersQueue sequence)

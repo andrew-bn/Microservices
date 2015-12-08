@@ -85,6 +85,11 @@ namespace Microservices.Core
 					value = this;
 					skipped++;
 				}
+				else if (p.ParameterType == typeof (object))
+				{
+					value = host.CreateDynamicProxy();
+					skipped++;
+				}
 				else
 				{
 					var param = message[p.Name];
