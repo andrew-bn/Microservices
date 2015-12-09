@@ -29,7 +29,7 @@ namespace Microservices.Core
 		public ICookies Cookies { get; }
 
 
-		public DynamicCallBasedMessage(string name)
+		public DynamicCallBasedMessage(string name, string[] arguments, object[] values)
 		{
 			Name = name;
 		}

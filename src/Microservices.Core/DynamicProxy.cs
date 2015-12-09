@@ -27,7 +27,7 @@ namespace Microservices.Core
 
 		public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
 		{
-			result = _host.Handle(new DynamicCallBasedMessage(_message.ToLower()));
+			result = _host.Handle(new DynamicCallBasedMessage(_message.ToLower(), binder.CallInfo.ArgumentNames.ToArray(), args));
 			return true;
 		}
 	}
