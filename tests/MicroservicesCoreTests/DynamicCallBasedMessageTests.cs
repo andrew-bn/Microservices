@@ -12,21 +12,24 @@ namespace MicroservicesCoreTests.Tests
 		[Fact]
 		public void after_ctor_message_name_is_valid()
 		{
-			var msg = new DynamicCallBasedMessage("message.name",new string[0], new object[0]);
+			var msg = CreateMessage("message.name");
 			Assert.Equal("message.name",msg.Name);
 		}
 
 		[Fact]
 		public void should_expose_passed_to_constructor_arguments()
 		{
-			var msg = new DynamicCallBasedMessage("message.name",new [] {"param1","param2"}, new object[] {null,null});
+			var msg = CreateMessage("message.name",new [] {"param1","param2"}, new object[] {5, "second"});
 			var parameters = msg.Parameters.ToArray();
 
 			Assert.Equal(2, parameters.Length);
-			Assert.Equal("param1", parameters[0].Name);
-			Assert.Equal("param2", parameters[1].Name);
+			Assert.Equal("param1", parameters[0].ParameterName);
+			Assert.Equal("param2", parameters[1].ParameterName);
 		}
 
-
+		private IMessage CreateMessage(string name, string[] args = null, object[] values=null,ICookies cookies = null)
+		{
+			return new DynamicCallBasedMessage("message.name", args ?? new string[0], values ?? new object[0], cookies);
+		}
 	}
 }

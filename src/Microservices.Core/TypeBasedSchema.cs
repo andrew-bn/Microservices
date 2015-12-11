@@ -6,17 +6,17 @@ using System.Reflection;
 
 namespace Microservices.Core.Messaging
 {
-	public class TypeBasedSchema : IMessageSchema
+	public class TypeBasedSchema : IMessageParameterSchema
 	{
 		public Type UnderlyingType { get; }
-		public string Name { get; }
-		public IEnumerable<IMessageSchema> Parameters { get; }
+		public string ParameterName { get; }
+		public IEnumerable<IMessageParameterSchema> Parameters { get; }
 		public ParameterType Type { get; }
 
 		public TypeBasedSchema(string name, Type type)
 		{
 			UnderlyingType = type;
-			Name = name;
+			ParameterName = name;
 			Parameters = type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(p => new TypeBasedSchema(p.Name, p.PropertyType)).ToArray();
 			Type = ParameterType.Object;
 			if (type == typeof(string))

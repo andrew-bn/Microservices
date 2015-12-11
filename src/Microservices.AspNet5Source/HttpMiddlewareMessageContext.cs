@@ -35,12 +35,12 @@ namespace Microservices.AspNet5Source
 			Cookies = new HttpBasedCookies(routeContext.HttpContext.Request.Cookies, routeContext.HttpContext.Response.Cookies);
 		}
 
-		public HttpJsonMessage(string name, JToken jsonRequest)
+		public HttpJsonMessage(MessageName name, JToken jsonRequest)
 		{
 			Name = name;
 			_jsonRequest = jsonRequest;
 		}
-		public string Name { get; }
+		public MessageName Name { get; }
 		public ICookies Cookies { get; set; }
 
 		public ParameterType Type
@@ -70,7 +70,7 @@ namespace Microservices.AspNet5Source
 			}
 		}
 
-		public IEnumerable<IMessageSchema> Parameters
+		public IEnumerable<IMessageParameterSchema> Parameters
 		{
 			get
 			{

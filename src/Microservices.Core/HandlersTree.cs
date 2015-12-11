@@ -20,75 +20,64 @@ namespace Microservices.Core
 	}
 	public interface IHandlersTreeNode
 	{
-		string MessageName { get; }
+		MessageName MessageName { get; }
 		IMessageHandler Handler { get; }
 		bool HasSubHandlers { get; }
 		IEnumerable<IHandlersTreeNode> SubHandlers { get; }
 	}
+
 	public class HandlerNode: IHandlersTreeNode
 	{
-		public HandlerNode(HandlerNode parent, string messageName, IMessageHandler handler)
+		public HandlerNode(HandlerNode parent, MessageName messageName, IMessageHandler handler)
 		{
 			Handler = handler;
 			Parent = parent;
 			MessageName = messageName;
 		}
-		public string MessageName { get; }
+
+		public MessageName MessageName { get; }
 		public HandlerNode Parent { get; }
 		public IMessageHandler Handler { get; }
 		public bool HasSubHandlers => SubHandlers != null && SubHandlers.Any();
 		public IEnumerable<IHandlersTreeNode> SubHandlers => _tree.Values;
-		private readonly ConcurrentDictionary<string, HandlerNode> _tree = new ConcurrentDictionary<string, HandlerNode>();
+		private readonly ConcurrentDictionary<MessageName, HandlerNode> _tree = new ConcurrentDictionary<MessageName, HandlerNode>();
 
 
-		public IHandlersQueue CollectHandlersQueue(string msgName, IMessage message)
+		public IHandlersQueue CollectHandlersQueue(MessageName message)
 		{
 			var queue = new HandlersQueue();
-			CollectHandlersQueue(msgName, message, queue);
+			CollectHandlersQueue(message, queue);
 			return queue;
 		}
 
-		public void CollectHandlersQueue(string msgName, IMessage message, HandlersQueue queue)
+		public void CollectHandlersQueue(MessageName message, HandlersQueue queue)
 		{
 			if (Handler!=null)
 				queue.Enqueue(Handler);
 
-			var name = message.Name.Remove(0, msgName.Length).Trim('.');
-			if (string.IsNullOrEmpty(name))
-				return;
-
-			if (msgName.Length > 0)
-				msgName += ".";
-
-			var parts = name.Split('.');
+			var nextHandlerName = message.GetNextHandlerName(MessageName);
 			HandlerNode node;
-			if (_tree.TryGetValue(parts[0], out node))
+			if (_tree.TryGetValue(nextHandlerName, out node))
 			{
-				node.CollectHandlersQueue(msgName + parts[0], message, queue);
+				node.CollectHandlersQueue(message, queue);
 			}
 		}
 
-		public void Register(string messageName, IMessageHandler handler)
+		public void Register(MessageName messageName, IMessageHandler handler)
 		{
-			var name = messageName.Remove(0, MessageName.Length).Trim('.');
+			var next = messageName.GetNextHandlerName(MessageName);
 
-			if (string.IsNullOrEmpty(name))
+			if (next == MessageName.Empty)
 				return;
 
-			var parts = name.Split('.');
-			
-			if (parts.Length == 1)
-			{
-				_tree.TryAdd(parts[0], new HandlerNode(this, messageName,handler));
-			}
+			if (next == messageName)
+				_tree.TryAdd(next, new HandlerNode(this, next, handler));
 			else
 			{
-				var node = string.IsNullOrEmpty(MessageName)
-							? new HandlerNode(this, parts[0], null)
-							: new HandlerNode(this, MessageName + "." + parts[0], null);
-
-				_tree.GetOrAdd(parts[0], node).Register(messageName, handler);
+				var node = new HandlerNode(this, next, null);
+				_tree.GetOrAdd(next, node).Register(messageName, handler);
 			}
 		}
-    }
+	}
+
 }

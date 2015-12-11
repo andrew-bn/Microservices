@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,10 +14,10 @@ namespace Microservices.Core.Messaging
 			_schemas = schemas;
 		}
 
-		public string Name { get; }
+		public MessageName Name { get; }
 		public ParameterType Type { get {return ParameterType.Object;} }
 
-		public IEnumerable<IMessageSchema> Parameters
+		public IEnumerable<IMessageParameterSchema> Parameters
 		{
 			get { return _schemas.SelectMany(s => s.Parameters).ToArray(); }
 		}

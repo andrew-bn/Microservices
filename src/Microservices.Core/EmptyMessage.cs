@@ -8,9 +8,9 @@ namespace Microservices.Core
 {
     public class EmptyMessage: IMessage
     {
-	    public string Name { get; }
+	    public MessageName Name { get; }
 	    public ParameterType Type { get {return ParameterType.Void;} }
-	    public IEnumerable<IMessageSchema> Parameters => null;
+	    public IEnumerable<IMessageParameterSchema> Parameters => null;
 		public IMessage this[string parameterName] => null;
 
 		public EmptyMessage(string name)

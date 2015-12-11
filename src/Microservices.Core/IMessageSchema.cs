@@ -5,10 +5,19 @@ using System.Threading.Tasks;
 
 namespace Microservices.Core.Messaging
 {
-	public interface IMessageSchema
+	public interface IMessageValueSchema
 	{
-		string Name { get; }
 		ParameterType Type { get; }
-		IEnumerable<IMessageSchema> Parameters { get; }
+		IEnumerable<IMessageParameterSchema> Parameters { get; }
+	}
+
+	public interface IMessageParameterSchema: IMessageValueSchema
+	{
+		string ParameterName { get; }
+	}
+
+	public interface IMessageSchema: IMessageValueSchema
+	{
+		MessageName Name { get; }
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microservices.Core;
 using Microservices.Core.Messaging;
 using Microsoft.AspNet.Routing;
 
@@ -16,8 +17,8 @@ namespace Microservices.AspNet5Source
 		    _routContext = routContext;
 	    }
 
-	    public string Name { get; }
+	    public MessageName Name { get; }
 	    public ParameterType Type { get; }
-	    public IEnumerable<IMessageSchema> Parameters { get; }
+	    public IEnumerable<IMessageParameterSchema> Parameters { get; }
     }
 }

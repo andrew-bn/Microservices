@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Microservices.Core
 {
@@ -27,7 +27,9 @@ namespace Microservices.Core
 
 		public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
 		{
-			result = _host.Handle(new DynamicCallBasedMessage(_message.ToLower(), binder.CallInfo.ArgumentNames.ToArray(), args));
+			var cookie = args.FirstOrDefault(a => a != null && typeof(ICookies).GetTypeInfo().IsAssignableFrom(a.GetType().GetTypeInfo()));
+			var dynMsg = new DynamicCallBasedMessage(_message.ToLower(), binder.CallInfo.ArgumentNames.ToArray(), args, (ICookies)cookie);
+			result = _host.Handle(dynMsg);
 			return true;
 		}
 	}

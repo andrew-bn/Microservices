@@ -10,17 +10,15 @@ namespace Microservices.Core
 {
 	public class MicroserviceBasedMessageHandler : IMessageHandler
 	{
-		public IMessageSchema Message { get; }
-		public IMessageSchema Response { get; }
-		public string Name { get; }
+		public IMessageValueSchema Message { get; }
+		public IMessageValueSchema Response { get; }
 		private readonly object _instance;
 		private readonly MethodInfo _method;
 
-		public MicroserviceBasedMessageHandler(string name, object instance, MethodInfo method)
+		public MicroserviceBasedMessageHandler(object instance, MethodInfo method)
 		{
 			_instance = instance;
 			_method = method;
-			Name = name;
 			Message = new MethodMessageSchema(string.Empty, method);
 			if (method.ReturnType.GetGenericArguments().Length > 0 && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
 				Response = new TypeBasedSchema(string.Empty, method.ReturnType.GetGenericArguments()[0]);

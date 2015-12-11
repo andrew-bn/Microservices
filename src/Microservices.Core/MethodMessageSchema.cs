@@ -17,8 +17,8 @@ namespace Microservices.Core.Messaging
 				.Select(p => new TypeBasedSchema(p.Name, p.ParameterType)).ToArray();
 		}
 
-		public string Name { get; }
+		public MessageName Name { get; }
 		public ParameterType Type => ParameterType.Object;
-		public IEnumerable<IMessageSchema> Parameters { get; }
+		public IEnumerable<IMessageParameterSchema> Parameters { get; }
 	}
 }

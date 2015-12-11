@@ -53,7 +53,7 @@ namespace Microservices.Core
 				if (m.GetCustomAttribute<CompilerGeneratedAttribute>() == null)
 				{
 					var name = $"{microserviceName}.{m.Name}".ToLower();
-					var handler = new MicroserviceBasedMessageHandler(name, microserviceInstance, m);
+					var handler = new MicroserviceBasedMessageHandler(microserviceInstance, m);
 					microservicesHost.Register(name, handler);
 				}
 			}

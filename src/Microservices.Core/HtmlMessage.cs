@@ -23,9 +23,9 @@ namespace Microservices.Core
 
 		public ICookies Cookies { get; }
 
-		public string Name => string.Empty;
+		public MessageName Name => string.Empty;
 
-		public IEnumerable<IMessageSchema> Parameters
+		public IEnumerable<IMessageParameterSchema> Parameters
 		{
 			get
 			{

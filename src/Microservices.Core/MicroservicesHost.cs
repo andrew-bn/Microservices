@@ -11,8 +11,8 @@ namespace Microservices.Core
 	{
 		public string HostName => "Microhost";
 		public string Version => "1.0.0";
-		public IMessageSchema Message => null;
-		public IMessageSchema Response => null;
+		public IMessageValueSchema Message => null;
+		public IMessageValueSchema Response => null;
 
 		private readonly MicroservicesOptions _options;
 		private readonly Dictionary<Type, object> _serviceLocator = new Dictionary<Type, object>();
@@ -27,12 +27,11 @@ namespace Microservices.Core
 		}
 
 		public Task<IMessage> Handle(IMessage message)
-
 		{
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
 
-			var sequence = _handlersTree.CollectHandlersQueue(_handlersTree.MessageName, message);
+			var sequence = _handlersTree.CollectHandlersQueue(message.Name);
 
 			return sequence.Next().Handle(this, message, sequence);
 		}
