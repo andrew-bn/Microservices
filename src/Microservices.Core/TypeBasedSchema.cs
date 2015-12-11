@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Microservices.Core.Messaging
+namespace Microservices.Core
 {
 	public class TypeBasedSchema : IMessageParameterSchema
 	{

@@ -16,7 +16,9 @@ namespace Microservices.Core
 			if (name == null)
 				throw new ArgumentNullException(nameof(name));
 
-			_parts = name.ToLower().Split('.');
+			if (string.IsNullOrEmpty(name))
+				_parts = new string[0];
+			else _parts = name.ToLower().Split('.');
 			_name = name;
 		}
 
@@ -64,6 +66,11 @@ namespace Microservices.Core
 			var name = (MessageName)obj;
 
 			return name._name.Equals(_name, StringComparison.OrdinalIgnoreCase);
+		}
+
+		public override string ToString()
+		{
+			return _name;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microservices.Core;
+using Microservices.Core.Messaging;
 using Xunit;
 
 namespace MicroservicesCoreTests.Tests
@@ -26,6 +27,31 @@ namespace MicroservicesCoreTests.Tests
 			Assert.Equal("param1", parameters[0].ParameterName);
 			Assert.Equal("param2", parameters[1].ParameterName);
 		}
+
+
+		[Fact]
+		public void arguments_exposed_via_indexer_should_be_not_null()
+		{
+			var msg = CreateMessage("message.name", new[] { "param1", "param2" }, new object[] { 5, "second" });
+			var p1 = msg["param1"];
+			var p2 = msg["param2"];
+
+			Assert.NotNull(p1);
+			Assert.NotNull(p2);
+		}
+
+
+		[Fact]
+		public void arguments_exposed_via_indexer_should_be_of_type_objectbasedmessage()
+		{
+			var msg = CreateMessage("message.name", new[] { "param1", "param2" }, new object[] { 5, "second" });
+			var p1 = msg["param1"];
+			var p2 = msg["param2"];
+
+			Assert.True(p1 is ObjectBasedMessage);
+			Assert.NotNull(p2 is ObjectBasedMessage);
+		}
+
 
 		private IMessage CreateMessage(string name, string[] args = null, object[] values=null,ICookies cookies = null)
 		{

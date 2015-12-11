@@ -51,5 +51,20 @@ namespace MicroservicesCoreTests
 			var result = ((MessageName)name).GetNextHandlerName("my.super2.message.name");
 			Assert.Equal(MessageName.Empty, result);
 		}
+		[Fact]
+		public void should_return_first_part_if_current_handler_name_is_empty()
+		{
+			var name = "my.super.message.name";
+			var result = ((MessageName)name).GetNextHandlerName("");
+			Assert.Equal("my", result);
+		}
+
+		[Fact]
+		public void tostring_should_return_message_name()
+		{
+			var name = "my.super.message.name";
+			var result = ((MessageName)name);
+			Assert.Equal(name, result.ToString());
+		}
 	}
 }

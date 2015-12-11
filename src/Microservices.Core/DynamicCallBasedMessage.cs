@@ -13,7 +13,7 @@ namespace Microservices.Core
 		public ParameterType Type { get; }
 		public IEnumerable<IMessageParameterSchema> Parameters => _parameters;
 
-		public IMessage this[string parameterName] => _parameters.FirstOrDefault(p => p.Name == parameterName);
+		public IMessage this[string parameterName] => _parameters.FirstOrDefault(p => p.ParameterName == parameterName);
 
 		public object Value { get; }
 		public object ValueAs(Type type)

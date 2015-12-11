@@ -35,6 +35,5 @@ namespace Microservices.HostService.Microservices
 				CollectHandlers(n,handlers);
 			}
 		}
-
 	}
 }

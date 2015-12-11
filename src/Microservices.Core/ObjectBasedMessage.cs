@@ -3,19 +3,13 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Microservices.Core.Messaging
+namespace Microservices.Core
 {
 	public class ObjectBasedMessage : TypeBasedSchema, IMessage
 	{
 		public object UnderlyingObject { get; }
 
-		public object Value
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+		public object Value => UnderlyingObject;
 
 		public ICookies Cookies { get; }
 
@@ -38,6 +32,11 @@ namespace Microservices.Core.Messaging
 
 		public object ValueAs(Type type)
 		{
+			if (UnderlyingObject == null)
+				return UnderlyingObject;
+			if (type == UnderlyingObject.GetType())
+				return UnderlyingObject;
+
 			throw new NotImplementedException();
 		}
 
