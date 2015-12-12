@@ -17,19 +17,19 @@ namespace Microservices.Core
 		{
 			UnderlyingType = type;
 			ParameterName = name;
-			Parameters = type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(p => new TypeBasedSchema(p.Name, p.PropertyType)).ToArray();
-			Type = ParameterType.Object;
-			if (type == typeof(string))
-				Type = ParameterType.String;
-			if (type == typeof(bool))
-				Type = ParameterType.Integer;
-			if (type == typeof(float) || type == typeof(double) || type == typeof(decimal))
-				Type = ParameterType.Real;
-			if (type == typeof(int) || type == typeof(long) || type == typeof(short) || type == typeof(byte) ||
-				type == typeof(uint) || type == typeof(ulong) || type == typeof(ushort))
-				Type = ParameterType.Integer;
-			if (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type))
-				Type = ParameterType.Array;
+
+			Parameters = GetParameters(type);
+			Type = type.ToParameterType();
+		}
+
+		private static IEnumerable<IMessageParameterSchema> GetParameters(Type type)
+		{
+			if (type.IsPrimitive())
+				return new IMessageParameterSchema[0];
+			return
+				type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+					.Select(p => new TypeBasedSchema(p.Name, p.PropertyType))
+					.ToArray();
 		}
 	}
 }

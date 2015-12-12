@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -36,8 +37,13 @@ namespace Microservices.Core
 				return UnderlyingObject;
 			if (type == UnderlyingObject.GetType())
 				return UnderlyingObject;
-
-			throw new NotImplementedException();
+			if (!type.IsPrimitive() && !UnderlyingObject.GetType().IsPrimitive())
+			{
+				if (type.GetTypeInfo().IsAssignableFrom(UnderlyingObject.GetType().GetTypeInfo()))
+					return UnderlyingObject;
+				throw new InvalidCastException();
+			}
+			return UnderlyingObject.ChangeType(type);
 		}
 
 		public string ToResponseString()

@@ -49,7 +49,7 @@ namespace MicroservicesCoreTests.Tests
 			var p2 = msg["param2"];
 
 			Assert.True(p1 is ObjectBasedMessage);
-			Assert.NotNull(p2 is ObjectBasedMessage);
+			Assert.True(p2 is ObjectBasedMessage);
 		}
 
 
