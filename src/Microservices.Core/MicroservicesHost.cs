@@ -11,8 +11,8 @@ namespace Microservices.Core
 	{
 		public string HostName => "Microhost";
 		public string Version => "1.0.0";
-		public IMessageValueSchema Message => null;
-		public IMessageValueSchema Response => null;
+		public IMessageTypeSchema Message => null;
+		public IMessageTypeSchema Response => null;
 
 		private readonly MicroservicesOptions _options;
 		private readonly Dictionary<Type, object> _serviceLocator = new Dictionary<Type, object>();

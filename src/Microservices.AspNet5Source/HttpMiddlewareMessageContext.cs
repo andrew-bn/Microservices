@@ -81,7 +81,7 @@ namespace Microservices.AspNet5Source
 
 	
 
-		public IMessage this[string parameterName]
+		public IMessageValue this[string parameterName]
 		{
 			get
 			{

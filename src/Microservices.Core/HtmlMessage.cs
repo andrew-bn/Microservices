@@ -1,11 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microservices.Core.Messaging;
 
 namespace Microservices.Core
 {
+	public class DynamicMessageWrapper : DynamicObject
+	{
+		private readonly IMessage _message;
+
+		public DynamicMessageWrapper(IMessage message)
+		{
+			_message = message;
+		}
+
+		 
+	}
 	public class HtmlMessage : IMessage
 	{
 
@@ -16,7 +28,7 @@ namespace Microservices.Core
 			Cookies = cookies;
 		}
 
-		public IMessage this[string parameterName]
+		public IMessageValue this[string parameterName]
 		{
 			get { throw new ArgumentException("Message has no parameters"); }
 		}

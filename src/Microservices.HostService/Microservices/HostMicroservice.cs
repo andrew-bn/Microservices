@@ -16,7 +16,7 @@ namespace Microservices.HostService.Microservices
 
 		public async Task Foo(dynamic proxy)
 		{
-			string result = await proxy.Host.Foo2(param1: 3);
+			IMessage result = await proxy.Host.Foo2<IMessage>(param1: 3);
 		}
 
 		public string Foo2(int param1)

@@ -16,7 +16,7 @@ namespace Microservices.Core
 
 		public MessageName Name { get; }
 
-		public IMessage this[string parameterName]
+		public IMessageValue this[string parameterName]
 		{
 			get
 			{

@@ -29,7 +29,14 @@ namespace Microservices.Core
 		{
 			var cookie = args.FirstOrDefault(a => a != null && typeof(ICookies).GetTypeInfo().IsAssignableFrom(a.GetType().GetTypeInfo()));
 			var dynMsg = new DynamicCallBasedMessage(_message.ToLower(), binder.CallInfo.ArgumentNames.ToArray(), args, (ICookies)cookie);
-			result = _host.Handle(dynMsg);
+			if (binder.ReturnType.GetReturnType() == typeof (IMessage))
+				result = _host.Handle(dynMsg);
+			else
+				result = _host.Handle(dynMsg)
+				.ContinueWith(t =>
+				{
+					return t.Result.ValueAs(binder.ReturnType.GetReturnType());
+				});
 			return true;
 		}
 	}

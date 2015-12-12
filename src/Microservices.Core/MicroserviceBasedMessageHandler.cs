@@ -10,8 +10,8 @@ namespace Microservices.Core
 {
 	public class MicroserviceBasedMessageHandler : IMessageHandler
 	{
-		public IMessageValueSchema Message { get; }
-		public IMessageValueSchema Response { get; }
+		public IMessageTypeSchema Message { get; }
+		public IMessageTypeSchema Response { get; }
 		private readonly object _instance;
 		private readonly MethodInfo _method;
 
@@ -29,14 +29,21 @@ namespace Microservices.Core
 		public async Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersQueue sequence)
 		{
 			var parameters = CollectParameters(host, message, sequence);
-			object result = _method.Invoke(_instance, parameters.ToArray());
-			if (typeof(Type).IsAssignableFrom(_method.ReturnType))
-			{
-				await ((Task)result);
-				result = result.GetType().GetProperty("Result").GetValue(result);
-			}
+			var result = _method.Invoke(_instance, parameters.ToArray());
+			if (result == null)
+				return null;
 			if (typeof(IMessage).IsAssignableFrom(result.GetType()))
 				return (IMessage)result;
+
+			if (_method.ReturnType.IsTask())
+			{
+				await ((Task)result);
+
+				result = _method.ReturnType.IsGenericType() 
+							? result.GetType().GetProperty("Result").GetValue(result) 
+							: null;
+			}
+
 			return new ObjectBasedMessage(result.GetType(), string.Empty, result, message.Cookies);
 		}
 

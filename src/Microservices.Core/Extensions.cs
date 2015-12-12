@@ -41,5 +41,25 @@ namespace Microservices.Core
 			    return null;
 		    return Convert.ChangeType(value, type);
 	    }
-    }
+
+	    public static bool IsTask(this Type type)
+	    {
+		    return typeof (Task).IsAssignableFrom(type);
+	    }
+
+	    public static bool IsGenericType(this Type type)
+	    {
+		    return type.GetGenericArguments().Length > 0;
+	    }
+		public static Type GetReturnType(this Type type)
+		{
+			var isTask = type.IsTask();
+			if (isTask && type.IsGenericType())
+				return type.GetGenericArguments()[0];
+			if (isTask)
+				return typeof (void);
+
+			return type;
+		}
+	}
 }

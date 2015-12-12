@@ -12,9 +12,9 @@ namespace MicroservicesCoreTests
     {
 		public class FakeHandler : IMessageHandler
 		{
-			public IMessageValueSchema Message { get; }
+			public IMessageTypeSchema Message { get; }
 
-			public IMessageValueSchema Response { get; }
+			public IMessageTypeSchema Response { get; }
 
 			public Task<IMessage> Handle(IMessageHandlersHost host, IMessage message, IHandlersQueue sequence)
 			{

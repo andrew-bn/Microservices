@@ -11,7 +11,7 @@ namespace Microservices.Core
 	    public MessageName Name { get; }
 	    public ParameterType Type { get {return ParameterType.Void;} }
 	    public IEnumerable<IMessageParameterSchema> Parameters => null;
-		public IMessage this[string parameterName] => null;
+		public IMessageValue this[string parameterName] => null;
 
 		public EmptyMessage(string name)
 	    {
