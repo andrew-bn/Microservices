@@ -17,6 +17,6 @@
     }
   },
   "dependencies": {
-    "System.Collections.Concurrent": "4.0.12-rc2-23805"
+    "System.Collections.Concurrent": "4.0.11-rc2-23523"
   }
 }

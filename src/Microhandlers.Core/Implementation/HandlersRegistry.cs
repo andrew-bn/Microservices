@@ -11,6 +11,7 @@ namespace Microhandlers.Core.Implementation
     public class HandlersRegistry: IHandlersRegistry
     {
         private ConcurrentDictionary<MessageName, IMessageHandler> _handlers = new ConcurrentDictionary<MessageName, IMessageHandler>();
+
         public IMessageHandler First(MessageName name)
         {
             throw new NotImplementedException();
