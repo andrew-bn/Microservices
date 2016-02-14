@@ -1,0 +1,8 @@
+﻿{
+  "server":"Microsoft.AspNet.Server.Kestrel" ,
+  "server.urls": "http://localhost:5001",
+  "Hosting:Application":"Microhandlers.Hosts.AspNet5",
+  
+  "Microservices": {
+  }
+}

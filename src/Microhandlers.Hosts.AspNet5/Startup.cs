@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microservices.AspNet5Source;
-using Microservices.RabbitMQEventHandler;
-using Microsoft.AspNet.Builder;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-namespace Microservices.AspNetHosting
+using Microhandlers.Sources.AspNet5;
+namespace Microhandlers.Hosts.AspNet5
 {
 	public class Startup
 	{
@@ -28,13 +22,12 @@ namespace Microservices.AspNetHosting
 		{
 			services.AddOptions();
 			services.AddRouting();
-
-			//services.AddMicroservices();
+			services.AddMicroservices(Configuration);
 		}
 
 		public void Configure(IApplicationBuilder app)
 		{
-			//app.UseMicroservices();
+			app.UseMicroservices();
 		}
 	}
 }

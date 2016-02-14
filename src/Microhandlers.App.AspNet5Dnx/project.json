@@ -1,12 +1,11 @@
 ﻿{
   "version": "1.0.0-*",
-  "compilationOptions": {
-    "emitEntryPoint": true
-  },
+
 
   "dependencies": {
     "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final"
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microhandlers.Hosts.AspNet5": ""
   },
 
   "commands": {
@@ -14,7 +13,7 @@
   },
 
   "frameworks": {
-    "dnx451": { },
+
     "dnxcore50": { }
   },
 
