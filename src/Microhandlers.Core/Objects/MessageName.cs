@@ -12,7 +12,10 @@ namespace Microhandlers.Core.Objects
 
         public MessageName(string name)
         {
-            _name = name;
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
+            _name = name.ToLower();
         }
 
         public override string ToString()
@@ -22,7 +25,11 @@ namespace Microhandlers.Core.Objects
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (obj is MessageName)
+                return Equals((MessageName)obj);
+
+            var s = obj as string;
+            return s != null && Equals(s);
         }
 
         public bool Equals(MessageName other)

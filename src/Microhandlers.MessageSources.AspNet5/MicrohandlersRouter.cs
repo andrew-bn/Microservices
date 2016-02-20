@@ -3,7 +3,7 @@ using Microhandlers.Core.Infrastructure;
 using Microhandlers.Core.Message;
 using Microsoft.AspNet.Routing;
 
-namespace Microhandlers.Sources.AspNet5
+namespace Microhandlers.MessageSources.AspNet5
 {
 	public class MicrohandlersRouter : IRouter
 	{

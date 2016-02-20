@@ -14,15 +14,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{85CF864E-FD5
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microhandlers.Core", "src\Microhandlers.Core\Microhandlers.Core.xproj", "{276CC31D-5803-475B-91ED-D1AAB4ABD665}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microhandlers.Sources.AspNet5", "src\Microhandlers.Sources.AspNet5\Microhandlers.Sources.AspNet5.xproj", "{21CF6F41-81B9-483C-B269-274B56792353}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microhandlers.MessageSources.AspNet5", "src\Microhandlers.MessageSources.AspNet5\Microhandlers.MessageSources.AspNet5.xproj", "{21CF6F41-81B9-483C-B269-274B56792353}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microhandlers.Hosts.AspNet5", "src\Microhandlers.Hosts.AspNet5\Microhandlers.Hosts.AspNet5.xproj", "{08D24512-074C-4E34-957A-482EA36DF3A5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microhandlers.Handlers.Microservice", "src\Microhandlers.Handlers.Microservice\Microhandlers.Handlers.Microservice.xproj", "{77B973C3-AFF0-4431-81FF-18D3E044D801}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microhandlers.HandlersDiscovery.Microservice", "src\Microhandlers.HandlersDiscovery.Microservice\Microhandlers.HandlersDiscovery.Microservice.xproj", "{77B973C3-AFF0-4431-81FF-18D3E044D801}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microhandlers.App.AspNet5Dnx", "src\Microhandlers.App.AspNet5Dnx\Microhandlers.App.AspNet5Dnx.xproj", "{7DE86226-EE91-4BEF-9E60-2C593E30FEE0}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MicrohandlersCoreTests", "tests\MicrohandlersCoreTests\MicrohandlersCoreTests.xproj", "{B7CD2FE6-C5CA-47A2-A10F-4BC4EDFAAFDF}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microhandlers.Handlers.Ping", "src\Microhandlers.Handlers.Ping\Microhandlers.Handlers.Ping.xproj", "{AF02461D-981E-45FE-8FD4-F20C7756107B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +82,14 @@ Global
 		{B7CD2FE6-C5CA-47A2-A10F-4BC4EDFAAFDF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7CD2FE6-C5CA-47A2-A10F-4BC4EDFAAFDF}.Release|x86.ActiveCfg = Release|Any CPU
 		{B7CD2FE6-C5CA-47A2-A10F-4BC4EDFAAFDF}.Release|x86.Build.0 = Release|Any CPU
+		{AF02461D-981E-45FE-8FD4-F20C7756107B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF02461D-981E-45FE-8FD4-F20C7756107B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF02461D-981E-45FE-8FD4-F20C7756107B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AF02461D-981E-45FE-8FD4-F20C7756107B}.Debug|x86.Build.0 = Debug|Any CPU
+		{AF02461D-981E-45FE-8FD4-F20C7756107B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF02461D-981E-45FE-8FD4-F20C7756107B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF02461D-981E-45FE-8FD4-F20C7756107B}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF02461D-981E-45FE-8FD4-F20C7756107B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,5 +99,6 @@ Global
 		{21CF6F41-81B9-483C-B269-274B56792353} = {85CF864E-FD5F-4E3F-8CF7-87E9952F6862}
 		{77B973C3-AFF0-4431-81FF-18D3E044D801} = {85CF864E-FD5F-4E3F-8CF7-87E9952F6862}
 		{B7CD2FE6-C5CA-47A2-A10F-4BC4EDFAAFDF} = {D886631D-FD4F-4927-BDBF-A17838C910FE}
+		{AF02461D-981E-45FE-8FD4-F20C7756107B} = {85CF864E-FD5F-4E3F-8CF7-87E9952F6862}
 	EndGlobalSection
 EndGlobal

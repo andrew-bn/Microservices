@@ -1,9 +1,11 @@
-﻿using Microhandlers.Handlers.Microservice;
+﻿using Microhandlers.HandlersDiscovery.Microservice;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microhandlers.Sources.AspNet5;
+using Microhandlers.MessageSources.AspNet5;
+using Microsoft.Extensions.PlatformAbstractions;
+
 namespace Microhandlers.Hosts.AspNet5
 {
 	public class Startup
@@ -30,7 +32,9 @@ namespace Microhandlers.Hosts.AspNet5
 		public void Configure(IApplicationBuilder app)
 		{
 		    var md = new MicroserviceDiscoverer();
-            app.UseMicrohand(()=> md.Discover());
+		    var libManager = app.ApplicationServices.GetService<ILibraryManager>();
+
+            app.UseMicrohand(()=> md.Discover(libManager));
 		}
 	}
 }

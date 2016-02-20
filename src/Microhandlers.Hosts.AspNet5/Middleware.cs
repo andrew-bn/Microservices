@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microhandlers.Core.Implementation;
 using Microhandlers.Core.Infrastructure;
-using Microhandlers.Sources.AspNet5;
+using Microhandlers.MessageSources.AspNet5;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.Configuration;

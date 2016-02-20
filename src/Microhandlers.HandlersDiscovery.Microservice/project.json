@@ -1,6 +1,6 @@
 ﻿{
   "version": "1.0.0-*",
-  "description": "Microhandlers.Sources.AspNet5 Class Library",
+  "description": "Microhandlers.HandlersDiscovery.Microservice Class Library",
   "authors": [ "Andrew" ],
   "tags": [ "" ],
   "projectUrl": "",
@@ -18,12 +18,7 @@
     }
   },
   "dependencies": {
-    "Microhandlers.Core": "1.0.0-*",
-    "Microsoft.AspNet.Routing": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
-    "Newtonsoft.Json": "8.0.1-beta3",
-    "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final"
+    "Microhandlers.Core": "",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc1-final"
   }
 }
-
-
