@@ -8,7 +8,7 @@ namespace Microhandlers.Core.Objects
     public struct MessageName
     {
         private readonly string _name;
-        public static MessageName Base = new MessageName(string.Empty);
+        public static MessageName Empty = new MessageName(string.Empty);
 
         public MessageName(string name)
         {
@@ -32,7 +32,17 @@ namespace Microhandlers.Core.Objects
 
         public override int GetHashCode()
         {
-            return (_name != null ? _name.GetHashCode() : 0);
+            return _name?.GetHashCode() ?? 0;
+        }
+
+        public static implicit operator string(MessageName value)
+        {
+            return value._name;
+        }
+
+        public static implicit operator MessageName(string value)
+        {
+            return new MessageName(value);
         }
     }
 }

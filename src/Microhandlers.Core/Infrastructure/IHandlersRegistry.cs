@@ -8,7 +8,7 @@ namespace Microhandlers.Core.Infrastructure
 {
     public interface IHandlersRegistry
     {
-
         IMessageHandler First(MessageName name);
+        void Register(IMessageHandler messageHandler);
     }
 }

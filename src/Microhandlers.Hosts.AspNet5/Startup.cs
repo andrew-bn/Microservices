@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using Microhandlers.Handlers.Microservice;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ namespace Microhandlers.Hosts.AspNet5
 	public class Startup
 	{
 		public IConfiguration Configuration { get; }
+
 		public Startup(IHostingEnvironment env)
 		{
 			var builder = new ConfigurationBuilder()
@@ -22,12 +24,13 @@ namespace Microhandlers.Hosts.AspNet5
 		{
 			services.AddOptions();
 			services.AddRouting();
-			services.AddMicroservices(Configuration);
+			services.AddMicrohand(Configuration);
 		}
 
 		public void Configure(IApplicationBuilder app)
 		{
-			app.UseMicroservices();
+		    var md = new MicroserviceDiscoverer();
+            app.UseMicrohand(()=> md.Discover());
 		}
 	}
 }
