@@ -18,8 +18,8 @@ namespace Microhandlers.Hosts.AspNet5
             {
                 routes.MapRoute(
                 "default",
-                "{microservice}/{method}/{id}",
-                new { microservice = "host", method = "index", id = "" });
+                "api/v{apiversion}/{*messagename}",
+                new { apiversion = "0", messagename = "unknown" });
             }, handlers);
         }
 

@@ -6,10 +6,8 @@ using Microhandlers.Core.Objects;
 
 namespace Microhandlers.Core.Message
 {
-    public interface IMessage
+    public interface IMessage: IMessageBody
     {
         MessageName Name { get; }
-
-
     }
 }

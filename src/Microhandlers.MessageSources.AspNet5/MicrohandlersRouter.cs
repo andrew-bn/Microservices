@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microhandlers.Core.Infrastructure;
 using Microhandlers.Core.Message;
+using Microhandlers.Sources.AspNet5;
 using Microsoft.AspNet.Routing;
 
 namespace Microhandlers.MessageSources.AspNet5
@@ -18,14 +19,11 @@ namespace Microhandlers.MessageSources.AspNet5
 
 	    public async Task RouteAsync(RouteContext context)
 	    {
-	        var msg = (IMessage) null;
+	        var version = $"v{context.RouteData.Values["apiversion"] ??"0"}";
+	        var name = context.RouteData.Values["messagename"]?.ToString().Replace("/",".");
+	        var msg = new Message(name);
 	        var handler = _registry.First(msg.Name);
 	        var result = await handler.Handle(msg, _servicesContainer);
-	        //var message = new HttpJsonMessage(context);
-	        //await message.Prepare();
-
-	        //var result = await Handle(message);
-	        //await context.HttpContext.Response.WriteAsync(result.ToResponseString());
 	    }
 
 		public VirtualPathData GetVirtualPath(VirtualPathContext context)
