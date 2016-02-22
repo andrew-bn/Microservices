@@ -1,13 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Microhandlers.Core.Objects
 {
-    public struct MessageName
+    public struct MessageName: IEnumerable<MessageName>
     {
+        private class MessageNameEnumerator : IEnumerator
+        {
+            public bool MoveNext()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Reset()
+            {
+                throw new NotImplementedException();
+            }
+
+            public object Current { get; }
+        }
+
         private readonly string _name;
+        private string[] _parts;
         public static MessageName Empty = new MessageName(string.Empty);
 
         public MessageName(string name)
@@ -16,7 +33,9 @@ namespace Microhandlers.Core.Objects
                 throw new ArgumentNullException(nameof(name));
 
             _name = name.ToLower();
+            _parts = _name.Split('.');
         }
+
 
         public override string ToString()
         {
@@ -51,5 +70,17 @@ namespace Microhandlers.Core.Objects
         {
             return new MessageName(value);
         }
+
+        #region IEnumerable
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<MessageName> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion IEnumerable
     }
 }
