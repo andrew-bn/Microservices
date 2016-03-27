@@ -10,6 +10,6 @@ namespace Microhandlers.Core.Infrastructure
     public interface IMessageHandler
     {
         MessageName Name { get; }
-        Task<IMessage> Handle(IMessage message, IServicesContainer servicesContainer);
+        Task<IMessage> Handle(IMessage message, IMessageDeserializer messageDeserializer, IServicesContainer servicesContainer);
     }
 }

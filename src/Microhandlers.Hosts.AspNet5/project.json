@@ -16,8 +16,7 @@
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
     "Microhandlers.Core": "",
     "Microhandlers.MessageSources.AspNet5": "",
-    "Microhandlers.HandlersDiscovery.Microservice": "",
-    "Microhandlers.Handlers.Ping": ""
+    "Microhandlers.HandlersDiscovery.Microservice": ""
   },
   "frameworks": {
     "dotnet5.4": {

@@ -23,9 +23,12 @@ namespace Microhandlers.HandlersDiscovery.Microservice
             _method = method;
         }
 
-        public Task<IMessage> Handle(IMessage message, IServicesContainer servicesContainer)
+        public Task<IMessage> Handle(IMessage message, IMessageDeserializer messageDeserializer, IServicesContainer servicesContainer)
         {
-            throw new NotImplementedException();
+            var instance = Activator.CreateInstance(_type);
+            _method.Invoke(instance, null);
+            return null;
+            //throw new NotImplementedException();
         }
     }
 }
