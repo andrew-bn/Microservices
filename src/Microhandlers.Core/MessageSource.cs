@@ -21,7 +21,7 @@ namespace Microhandlers.Core
         protected Task<IMessage> Handle(IMessage message)
         {
             var handler = _registry.First(message.Name);
-            return handler.Handle(message, _servicesContainer);
+            return handler.Handle(message, null,_servicesContainer);
         }
     }
 }
