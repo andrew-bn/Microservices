@@ -7,5 +7,6 @@ namespace Microhandlers.Core.Infrastructure
 {
     public interface IServicesContainer
     {
+	    bool TryToResolve(Type type, out object service);
     }
 }

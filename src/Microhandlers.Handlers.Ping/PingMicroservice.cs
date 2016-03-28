@@ -3,5 +3,6 @@
     public class PingMicroservice
     {
         public string Ping() => "PONG";
+
     }
 }

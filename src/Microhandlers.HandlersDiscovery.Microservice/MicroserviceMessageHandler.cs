@@ -34,9 +34,35 @@ namespace Microhandlers.HandlersDiscovery.Microservice
             //throw new NotImplementedException();
         }
 
-        private List<object> CollectParameters(IMessage message, IMessageDeserializer messageDeserializer, IServicesContainer sequence)
+        private List<object> CollectParameters(IMessage message, IMessageDeserializer messageDeserializer, IServicesContainer servicesContainer)
         {
-            return null;
+			var parameters = new List<object>();
+			var skipped = 0;
+			foreach (var p in _method.GetParameters())
+			{
+				object value = null;
+				if (p.IsRetval) continue;
+
+				if (p.HasDefaultValue)
+					value = p.DefaultValue;
+
+				object service = null;
+				servicesContainer.TryToResolve(p.ParameterType, out service);
+				if (service != null)
+				{
+					value = service;
+					skipped++;
+				}
+				else
+				{
+					//var param = message.ValueAsObject();
+					//if (param == null)
+						//param = message[(p.Position - skipped).ToString()];
+					//value = param.ValueAs(p.ParameterType) ?? value;
+				}
+				parameters.Add(value);
+			}
+	        return parameters;
         }
 
         /*

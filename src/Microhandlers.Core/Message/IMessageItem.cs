@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microhandlers.Core.Objects;
 
 namespace Microhandlers.Core.Message
 {
@@ -19,12 +20,12 @@ namespace Microhandlers.Core.Message
 
     public interface IItemObject
     {
-        IEnumerable<IMessageItem> Properties { get; }
+        IDictionary<InsensitiveString, IMessageItem> Properties { get; }
     }
 
     public interface IMessageItem
     {
-        string Name { get; }
+		InsensitiveString Name { get; }
         ItemType Type { get; }
         bool ValueAsBool();
         string ValueAsString();

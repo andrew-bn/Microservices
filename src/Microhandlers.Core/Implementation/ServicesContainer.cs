@@ -14,5 +14,10 @@ namespace Microhandlers.Core.Implementation
         {
             _serviceProvider = serviceProvider;
         }
-    }
+
+		public bool TryToResolve(Type type, out object service)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
