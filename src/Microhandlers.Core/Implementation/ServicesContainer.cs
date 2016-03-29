@@ -17,7 +17,8 @@ namespace Microhandlers.Core.Implementation
 
 		public bool TryToResolve(Type type, out object service)
 		{
-			throw new NotImplementedException();
+			service = null;
+			return false;
 		}
 	}
 }

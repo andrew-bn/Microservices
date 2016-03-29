@@ -15,10 +15,19 @@ namespace Microhandlers.Core.Implementation
 
         public IMessageHandler First(MessageName name)
         {
-            IMessageHandler result;
-            if (!_handlers.TryGetValue(name, out result))
-                throw new MicroservicesCoreException($"Handler '{name}' not found");
-            return result;
+	        string search = "";
+	        foreach (var p in name.Parts)
+	        {
+				if (search.Length == 0)
+					search += p;
+				else search += "." + p;
+
+				IMessageHandler result;
+		        if (_handlers.TryGetValue(search, out result))
+			        return result;
+	        }
+
+			throw new MicroservicesCoreException($"Handler '{name}' not found");
         }
 
         public void Register(IMessageHandler messageHandler)

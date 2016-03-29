@@ -8,6 +8,6 @@ namespace Microhandlers.Core.Message
 {
     public interface IMessage: IMessageItem
     {
-        
-    }
+		MessageName Name { get; }
+	}
 }

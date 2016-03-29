@@ -12,7 +12,9 @@ namespace Microhandlers.HandlersDiscovery.Microservice
 {
     public class MicroserviceDiscoverer
     {
-        public IEnumerable<IMessageHandler> Discover(ILibraryManager libraryManager)
+		private HandlerParameterDeserializer _handlerParameterDeserializer = new HandlerParameterDeserializer();
+
+		public IEnumerable<IMessageHandler> Discover(ILibraryManager libraryManager)
         {
             return Discover(libraryManager, 
                 t => t.Name.EndsWith("Microservice"),
@@ -49,7 +51,7 @@ namespace Microhandlers.HandlersDiscovery.Microservice
         {
             return from m in type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                    where m.GetCustomAttribute<CompilerGeneratedAttribute>() == null && useMethod(m)
-                   select new MicroserviceMessageHandler(getMessageName(type,m), type, m);
+                   select new MicroserviceMessageHandler(getMessageName(type,m), type, m, _handlerParameterDeserializer);
         }
 
         #region internal

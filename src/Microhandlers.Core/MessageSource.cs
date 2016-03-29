@@ -10,18 +10,18 @@ namespace Microhandlers.Core
     public abstract class MessageSource
     {
         private readonly IHandlersRegistry _registry;
-        private readonly IServicesContainer _servicesContainer;
+	    private readonly IServicesContainer _servicesContainer;
 
         protected MessageSource(IHandlersRegistry registry, IServicesContainer servicesContainer)
         {
             _registry = registry;
-            _servicesContainer = servicesContainer;
+	        _servicesContainer = servicesContainer;
         }
 
         protected Task<IMessage> Handle(IMessage message)
         {
             var handler = _registry.First(message.Name);
-            return handler.Handle(message, null,_servicesContainer);
+            return handler.Handle(message, _servicesContainer);
         }
     }
 }

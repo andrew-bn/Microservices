@@ -6,38 +6,57 @@ using System.Threading.Tasks;
 using Microhandlers.Core.Infrastructure;
 using Microhandlers.Core.Message;
 using Microhandlers.Core.Objects;
+using Microhandlers.Core.Extensions;
 
 namespace Microhandlers.HandlersDiscovery.Microservice
 {
-    public class MicroserviceMessageHandler: IMessageHandler
-    {
-        private readonly Type _type;
-        private readonly MethodInfo _method;
+	public class MicroserviceMessageHandler : IMessageHandler
+	{
+		private readonly Type _type;
+		private readonly MethodInfo _method;
+		private readonly HandlerParameterDeserializer _deserializer;
 
-        public MessageName Name { get; }
+		public MessageName Name { get; }
 
-        public MicroserviceMessageHandler(MessageName name, Type type, MethodInfo method)
-        {
-            Name = name;
-            _type = type;
-            _method = method;
-        }
+		public MicroserviceMessageHandler(MessageName name, Type type, MethodInfo method, HandlerParameterDeserializer deserializer)
+		{
+			Name = name;
+			_type = type;
+			_method = method;
+			_deserializer = deserializer;
+		}
 
-        public Task<IMessage> Handle(IMessage message, IMessageDeserializer messageDeserializer, IServicesContainer servicesContainer)
-        {
-            var parameters = CollectParameters(message, messageDeserializer, servicesContainer);
+		public async Task<IMessage> Handle(IMessage message, IServicesContainer servicesContainer)
+		{
+			var parameters = CollectParameters(message, _deserializer, servicesContainer);
 
-            var instance = Activator.CreateInstance(_type);
+			var instance = Activator.CreateInstance(_type);
 
-            _method.Invoke(instance, null);
-            return null;
-            //throw new NotImplementedException();
-        }
+	
+			var result = _method.Invoke(instance, parameters.ToArray());
+			if (result == null) return null;
+			if (typeof(IMessage).IsAssignableFrom(result.GetType()))
+				return (IMessage)result;
 
-        private List<object> CollectParameters(IMessage message, IMessageDeserializer messageDeserializer, IServicesContainer servicesContainer)
-        {
+			var _returnType = _method.ReturnType;
+			if (_returnType.IsTask())
+			{
+				if (_method.ReturnType.IsGenericType())
+					_returnType = _method.ReturnType.GetGenericArguments()[0];
+
+				await ((Task)result);
+
+				result = _method.ReturnType.IsGenericType()
+							? result.GetType().GetProperty("Result").GetValue(result)
+							: null;
+			}
+
+			return new ObjectBasedMessage(_returnType, message.Name, result);
+		}
+
+		private List<object> CollectParameters(IMessage message, HandlerParameterDeserializer handlerParameterDeserializer, IServicesContainer servicesContainer)
+		{
 			var parameters = new List<object>();
-			var skipped = 0;
 			foreach (var p in _method.GetParameters())
 			{
 				object value = null;
@@ -46,84 +65,17 @@ namespace Microhandlers.HandlersDiscovery.Microservice
 				if (p.HasDefaultValue)
 					value = p.DefaultValue;
 
-				object service = null;
-				servicesContainer.TryToResolve(p.ParameterType, out service);
-				if (service != null)
+				servicesContainer.TryToResolve(p.ParameterType, out value);
+
+				if (value == null)
 				{
-					value = service;
-					skipped++;
-				}
-				else
-				{
-					//var param = message.ValueAsObject();
-					//if (param == null)
-						//param = message[(p.Position - skipped).ToString()];
-					//value = param.ValueAs(p.ParameterType) ?? value;
+					var obj = message.ValueAsObject();
+					var msgItem = obj[p.Name];
+					value = handlerParameterDeserializer.Deserialize(p.ParameterType, msgItem);
 				}
 				parameters.Add(value);
 			}
-	        return parameters;
-        }
-
-        /*
-            private List<object> CollectParameters(IMessageHandlersHost host, IMessage message, IHandlersQueue sequence)
-            {
-                var parameters = new List<object>();
-                var skipped = 0;
-                foreach (var p in _method.GetParameters())
-                {
-                    object value = null;
-                    if (p.IsRetval) continue;
-
-                    if (p.HasDefaultValue)
-                        value = p.DefaultValue;
-
-                    var srv = host.ResolveDependency(p.ParameterType);
-                    if (srv != null)
-                    {
-                        value = srv;
-                        skipped++;
-                    }
-                    else if (p.ParameterType == typeof(ICookies))
-                    {
-                        value = message.Cookies;
-                        skipped++;
-                    }
-                    else if (p.ParameterType == typeof(IMessageHandlersHost))
-                    {
-                        value = host;
-                        skipped++;
-                    }
-                    else if (p.ParameterType == typeof(IMessage))
-                    {
-                        value = message;
-                        skipped++;
-                    }
-                    else if (p.ParameterType == typeof(IHandlersQueue))
-                    {
-                        value = sequence;
-                        skipped++;
-                    }
-                    else if (p.ParameterType == typeof(IMessageHandler))
-                    {
-                        value = this;
-                        skipped++;
-                    }
-                    else if (p.ParameterType == typeof(object))
-                    {
-                        value = host.CreateDynamicProxy();
-                        skipped++;
-                    }
-                    else
-                    {
-                        var param = message[p.Name];
-                        if (param == null)
-                            param = message[(p.Position - skipped).ToString()];
-                        value = param.ValueAs(p.ParameterType) ?? value;
-                    }
-                    parameters.Add(value);
-                }
-                return parameters;
-            }*/
-        }
+			return parameters;
+		}
+	}
 }

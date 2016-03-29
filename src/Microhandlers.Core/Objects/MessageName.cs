@@ -6,36 +6,19 @@ using System.Threading.Tasks;
 
 namespace Microhandlers.Core.Objects
 {
-    public struct MessageName: IEnumerable<MessageName>
+    public struct MessageName
     {
-        private class MessageNameEnumerator : IEnumerator
-        {
-            public bool MoveNext()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Reset()
-            {
-                throw new NotImplementedException();
-            }
-
-            public object Current { get; }
-        }
-
-        private readonly string _name;
-        private string[] _parts;
+        private readonly InsensitiveString _name;
+        private InsensitiveString[] _parts;
         public static MessageName Empty = new MessageName(string.Empty);
 
-        public MessageName(string name)
+        public MessageName(InsensitiveString name)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            _name = name.ToLower();
+            _name = name;
             _parts = _name.Split('.');
         }
 
+		public IEnumerable<InsensitiveString> Parts { get { return _parts; } }
 
         public override string ToString()
         {
@@ -53,34 +36,32 @@ namespace Microhandlers.Core.Objects
 
         public bool Equals(MessageName other)
         {
-            return string.Equals(_name, other._name);
+            return _name.Equals(other._name);
         }
 
         public override int GetHashCode()
         {
-            return _name?.GetHashCode() ?? 0;
+            return _name.GetHashCode();
         }
 
-        public static implicit operator string(MessageName value)
-        {
-            return value._name;
-        }
+		public static implicit operator string(MessageName value)
+		{
+			return value._name;
+		}
 
-        public static implicit operator MessageName(string value)
-        {
-            return new MessageName(value);
-        }
+		public static implicit operator MessageName(string value)
+		{
+			return new MessageName(value);
+		}
 
-        #region IEnumerable
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+		public static implicit operator InsensitiveString(MessageName value)
+		{
+			return value._name;
+		}
 
-        public IEnumerator<MessageName> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion IEnumerable
-    }
+		public static implicit operator MessageName(InsensitiveString value)
+		{
+			return new MessageName(value);
+		}
+	}
 }

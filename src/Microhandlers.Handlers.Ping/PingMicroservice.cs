@@ -2,7 +2,10 @@
 {
     public class PingMicroservice
     {
-        public string Ping() => "PONG";
+	    public int Ping(int p)
+	    {
+		    return p;
+	    }
 
     }
 }

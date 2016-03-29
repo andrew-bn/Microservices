@@ -11,8 +11,16 @@ namespace Microhandlers.Core.Objects
 	    private readonly string _lower;
 	    private InsensitiveString(string value)
 	    {
-		    _value = value;
+			if (value == null)
+				throw new ArgumentNullException(nameof(value));
+
+			_value = value;
 		    _lower = _value.ToLower();
+	    }
+
+	    public InsensitiveString[] Split(char ch)
+	    {
+		    return _value.Split(ch).Select(c=>(InsensitiveString)c).ToArray();
 	    }
 
 	    public static implicit operator string(InsensitiveString value)
@@ -34,7 +42,6 @@ namespace Microhandlers.Core.Objects
 		{
 			return !left.Equals(right);
 		}
-
 
 		public override bool Equals(object obj)
 		{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microhandlers.Core.Implementation;
 using Microhandlers.Core.Infrastructure;
+using Microhandlers.Core.Message;
 using Microhandlers.MessageSources.AspNet5;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Routing;
@@ -28,7 +29,7 @@ namespace Microhandlers.Hosts.AspNet5
             var container = app.ApplicationServices.GetService<IServicesContainer>();
             var registry = app.ApplicationServices.GetService<IHandlersRegistry>();
 
-            var routes = new RouteBuilder
+			var routes = new RouteBuilder
             {
                 DefaultHandler = new MicrohandlersRouter(registry, container),
                 ServiceProvider = app.ApplicationServices,
@@ -47,6 +48,6 @@ namespace Microhandlers.Hosts.AspNet5
         {
             services.AddSingleton<IHandlersRegistry, HandlersRegistry>();
             services.AddSingleton<IServicesContainer, ServicesContainer>();
-        }
+		}
     }
 }

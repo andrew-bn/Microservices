@@ -42,10 +42,10 @@ namespace MicrohandlersCoreTests
         }
 
         [Fact]
-        public void message_name_should_be_lowered()
+        public void message_name_should_not_be_lowered()
         {
             var m1 = (MessageName)"Message";
-            Assert.Equal(m1.ToString(), "message");
+            Assert.Equal(m1.ToString(), "Message");
         }
     }
 }

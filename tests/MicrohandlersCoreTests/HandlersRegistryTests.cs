@@ -21,7 +21,7 @@ namespace MicrohandlersCoreTests
                 Name = name;
             }
 
-            public Task<IMessage> Handle(IMessage message, IMessageDeserializer messageDeserializer, IServicesContainer servicesContainer)
+            public Task<IMessage> Handle(IMessage message, IServicesContainer servicesContainer)
             {
                 return null;
             }

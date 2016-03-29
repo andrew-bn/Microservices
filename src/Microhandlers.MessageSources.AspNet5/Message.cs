@@ -1,53 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microhandlers.Core.Message;
 using Microhandlers.Core.Objects;
+using Newtonsoft.Json.Linq;
 
 namespace Microhandlers.MessageSources.AspNet5
 {
-    public class Message: IMessage
-    {
-        public MessageName Name { get; }
+	public class Message : IMessage
+	{
+		private readonly IMessageItem _item;
+		public MessageName Name { get; }
 
-        string IMessageItem.Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+		public ItemType Type
+		{
+			get { return _item.Type; }
+		}
 
-        public ItemType Type
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+		public IMessageItem this[InsensitiveString propertyName]
+		{
+			get { return _item.ValueAsObject()[propertyName]; }
+		}
 
-        public Message(MessageName name)
-        {
-            Name = name;
-        }
+		public Message(MessageName name, IMessageItem item)
+		{
+			_item = item;
+			Name = name;
+		}
 
-        public bool ValueAsBool()
-        {
-            throw new NotImplementedException();
-        }
+		public bool ValueAsBool()
+		{
+			return _item.ValueAsBool();
+		}
 
-        public string ValueAsString()
-        {
-            throw new NotImplementedException();
-        }
+		public string ValueAsString()
+		{
+			return _item.ValueAsString();
+		}
 
-        public IItemObject ValueAsObject()
-        {
-            throw new NotImplementedException();
-        }
+		public IItemObject ValueAsObject()
+		{
+			return _item.ValueAsObject();
+		}
 
-        public IEnumerable<IMessageItem> ValueAsArray()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public IEnumerable<IMessageItem> ValueAsArray()
+		{
+			return _item.ValueAsArray();
+		}
+	}
 }
